@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app
 
 from ..db import db_fetchone, db_fetchall, db_execute, db_commit
 from ..decorators import login_required, admin_required
 from ..utils import _now
 from ..ai import review_is_clean
+from ..moderation import contains_profanity
 
 
 bp = Blueprint("reviews", __name__)
@@ -32,8 +33,17 @@ def review_submit():
     if existing:
         flash("Ya has enviado una reseña. Solo se permite una por usuario.", "error")
         return redirect(url_for("main.index") + "#resenas")
-    clean, reason = review_is_clean(body)
+    bad, word = contains_profanity(body)
+    if bad:
+        current_app.logger.info("Review blocked by wordlist: user=%s word=%r", session["user_id"], word)
+        flash("Tu reseña contiene lenguaje ofensivo. Por favor, mantén un tono respetuoso.", "error")
+        return redirect(url_for("main.index") + "#resenas")
+
+    clean, reason, api_ok = review_is_clean(body)
+    if not api_ok:
+        current_app.logger.warning("Review moderation AI failed (fail-open): user=%s", session["user_id"])
     if not clean:
+        current_app.logger.info("Review blocked by AI: user=%s reason=%s", session["user_id"], reason)
         flash(f"Tu reseña ha sido rechazada por mala conducta: {reason}. Por favor, mantén un tono respetuoso.", "error")
         return redirect(url_for("main.index") + "#resenas")
     db_execute(
