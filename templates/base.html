@@ -285,20 +285,20 @@
 <body>
 
 <nav>
-  <a href="{{ url_for('index') }}" class="nav-logo">
+  <a href="{{ url_for('main.index') }}" class="nav-logo">
     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Reconquest">
     <span>Reconquest</span>
   </a>
   <div class="nav-right">
     {% if user %}
-      <a href="{{ url_for('profile') }}" class="nav-user">// {{ user.username }}</a>
+      <a href="{{ url_for('profile.profile') }}" class="nav-user">// {{ user.username }}</a>
       {% if user.is_admin %}
-        <a href="{{ url_for('admin_dashboard') }}" class="nav-admin-btn">Admin</a>
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="nav-admin-btn">Admin</a>
       {% endif %}
-      <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+      <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
     {% else %}
-      <a href="{{ url_for('login') }}">Iniciar sesión</a>
-      <a href="{{ url_for('register') }}">Registrarse</a>
+      <a href="{{ url_for('auth.login') }}">Iniciar sesión</a>
+      <a href="{{ url_for('auth.register') }}">Registrarse</a>
     {% endif %}
     <button id="theme-toggle" onclick="toggleTheme()" title="Modo día/noche">☀️ Día</button>
   </div>

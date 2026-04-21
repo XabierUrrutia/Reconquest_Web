@@ -706,7 +706,7 @@
       <span style="color:var(--muted);font-size:.72rem;">Disponible para Windows 10/11 y Linux (64-bit).</span>
     </div>
     {% elif installer_exists %}
-    <a href="{{ url_for('download') if user else url_for('login', next='/download') }}" class="btn-download" id="dl-btn">
+    <a href="{{ url_for('main.download') if user else url_for('auth.login', next='/download') }}" class="btn-download" id="dl-btn">
       <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="2.5" stroke-linecap="square">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>

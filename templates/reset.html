@@ -13,7 +13,7 @@
     {% if invalid %}
     <div class="form-error">
       ⚠ Este enlace no es válido o ha expirado.<br>
-      <a href="{{ url_for('forgot') }}" style="color:var(--sand);">Solicitar uno nuevo</a>
+      <a href="{{ url_for('auth.forgot') }}" style="color:var(--sand);">Solicitar uno nuevo</a>
     </div>
 
     {% else %}
@@ -35,7 +35,7 @@
     {% endif %}
 
     <div class="auth-links">
-      <a href="{{ url_for('login') }}">← Volver al login</a>
+      <a href="{{ url_for('auth.login') }}">← Volver al login</a>
     </div>
   </div>
 </div>
