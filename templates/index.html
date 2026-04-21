@@ -433,8 +433,22 @@
       display: flex; justify-content: space-between; align-items: center;
       border-top: 1px solid rgba(87,101,51,.1); padding-top: .8rem;
     }
-    .review-author { font-family: 'Share Tech Mono', monospace; font-size: .69rem; color: var(--gold); letter-spacing: .1em; }
-    .review-date   { font-family: 'Share Tech Mono', monospace; font-size: .64rem; color: var(--muted); }
+    .review-author-wrap { display: flex; align-items: center; gap: .6rem; min-width: 0; }
+    .review-avatar {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: 1px solid rgba(140,127,59,.32);
+      object-fit: cover; image-rendering: pixelated;
+    }
+    .review-avatar-ph {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: 1px solid rgba(140,127,59,.28);
+      background: rgba(87,101,51,.14);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Oswald', sans-serif; font-size: .95rem; font-weight: 700; color: var(--gold);
+      line-height: 1;
+    }
+    .review-author { font-family: 'Share Tech Mono', monospace; font-size: .69rem; color: var(--gold); letter-spacing: .1em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .review-date   { font-family: 'Share Tech Mono', monospace; font-size: .64rem; color: var(--muted); flex-shrink: 0; margin-left: .6rem; }
 
     /* Review form */
     .review-form-wrap { max-width: 640px; }
@@ -836,7 +850,14 @@
         </div>
         <p class="review-body">"{{ r.body }}"</p>
         <div class="review-meta">
-          <span class="review-author">// {{ r.username }}</span>
+          <div class="review-author-wrap">
+            {% if r.avatar_url %}
+              <img class="review-avatar" src="{{ r.avatar_url }}" alt="{{ r.username }}">
+            {% else %}
+              <span class="review-avatar-ph">{{ r.username[0]|upper }}</span>
+            {% endif %}
+            <span class="review-author">// {{ r.username }}</span>
+          </div>
           <span class="review-date">{{ r.created_at[:10] }}</span>
         </div>
       </div>

@@ -12,7 +12,7 @@ bp = Blueprint("main", __name__)
 @bp.route("/")
 def index():
     reviews = db_fetchall(
-        """SELECT r.rating, r.body, r.created_at, u.username
+        """SELECT r.rating, r.body, r.created_at, u.username, u.avatar_url
            FROM reviews r JOIN users u ON r.user_id=u.id
            WHERE r.approved=1 ORDER BY r.created_at DESC"""
     )
