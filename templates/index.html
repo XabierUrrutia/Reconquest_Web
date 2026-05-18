@@ -6,320 +6,220 @@
   <title>RECONQUEST — Descarga Oficial</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@300;400;500;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    /* ── VARIABLES ───────────────────────────────────────── */
     :root {
-      --gold:     #8C7F3B;
-      --olive:    #576533;
-      --sand:     #BFBB80;
-      --dark:     #0a0b07;
-      --ink:      #111309;
-      --mid:      #1a1d0f;
-      --dim:      #2a2e18;
-      --muted:    #6b6a4a;
-      --light:    #d4d09e;
-      --white:    #eeecd4;
+      --gold:  #8C7F3B;
+      --olive: #576533;
+      --sand:  #BFBB80;
+      --dark:  #0a0b07;
+      --ink:   #111309;
+      --mid:   #1a1d0f;
+      --dim:   #2a2e18;
+      --muted: #6b6a4a;
+      --light: #d4d09e;
+      --white: #eeecd4;
+      --nav-h: 58px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
-      background: var(--dark);
-      color: var(--light);
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 400;
-      overflow-x: hidden;
-      cursor: crosshair;
+      background: var(--dark); color: var(--light);
+      font-family: 'Rajdhani', sans-serif; font-weight: 400;
+      overflow-x: hidden; cursor: crosshair;
     }
-
-    /* ── SCANLINES OVERLAY ────────────────────────────────── */
+    /* scanlines */
     body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 1000; pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,.08) 2px,
-        rgba(0,0,0,.08) 4px
-      );
+      content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px);
     }
-
-    /* ── PIXEL GRID BG ───────────────────────────────────── */
+    /* grid */
     body::after {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(87,101,51,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(87,101,51,.04) 1px, transparent 1px);
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(87,101,51,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(87,101,51,.035) 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
-    /* ── NAV ──────────────────────────────────────────────── */
-    /* ── MODO DÍA ─────────────────────────────────────────────────── */
-    body.day-mode {
-      background: #d8d4c0 !important;
-      --white: #1e2210 !important;
-      --sand:  #4a4e2a !important;
-      --gold:  #5a5530 !important;
-      --light: #3a3e28 !important;
-      --muted: #6a6850 !important;
-    }
-    body.day-mode nav {
-      background: rgba(210,205,185,.97) !important;
-      border-bottom-color: rgba(80,90,50,.25) !important;
-    }
-    body.day-mode section,
-    body.day-mode .hero,
-    body.day-mode footer {
-      background: #d8d4c0 !important;
-    }
-    /* Fondos de cards y elementos con fondo oscuro */
-    body.day-mode [style*="background:rgba(26,29,15"],
-    body.day-mode [style*="background: rgba(26,29,15"],
-    body.day-mode [style*="background:rgba(10,11,7"],
-    body.day-mode [style*="background: rgba(10,11,7"],
-    body.day-mode [style*="background:rgba(87,101,51"],
-    body.day-mode [style*="background: rgba(87,101,51"] {
-      background: rgba(160,155,120,.35) !important;
-    }
-    /* Textos */
-    body.day-mode { color: #2a2e18 !important; }
-    body.day-mode h1, body.day-mode h2, body.day-mode h3 { color: #1e2210 !important; }
-    body.day-mode p { color: #3a3e28 !important; }
-    body.day-mode span { color: #3a3e28 !important; }
-    body.day-mode a { color: #4a4e30 !important; }
-    body.day-mode a:hover { color: #1e2210 !important; }
-    /* Botón descargar y elementos con color dorado */
-    body.day-mode [style*="color:#BFBB80"],
-    body.day-mode [style*="color: #BFBB80"] { color: #3a3820 !important; }
-    body.day-mode [style*="color:#8C7F3B"],
-    body.day-mode [style*="color: #8C7F3B"] { color: #5a5530 !important; }
-    body.day-mode [style*="color:var(--muted)"],
-    body.day-mode [style*="color: var(--muted)"] { color: #6a6850 !important; }
-    /* Chatbot */
-    body.day-mode #chat-window { background: #ccc8b0 !important; }
-    body.day-mode .chat-header { background: #bab690 !important; }
-    body.day-mode #chat-messages { background: #ccc8b0 !important; }
-    body.day-mode .cmsg.bot { background: #bab690 !important; color: #2a2e18 !important; }
-    body.day-mode .cmsg.user { background: #aaa880 !important; color: #2a2e18 !important; }
-    body.day-mode #chat-input { background: #bab690 !important; color: #2a2e18 !important; border-color: rgba(80,90,50,.3) !important; }
-    body.day-mode #chat-send { background: #6a7040 !important; color: #d8d4c0 !important; }
-    body.day-mode #theme-toggle { color: #2a2e18 !important; border-color: rgba(80,90,50,.4) !important; }
-
-    /* Hero title y tagline */
-    body.day-mode .hero-title  { color: #1e2210 !important; }
-    body.day-mode .hero-title .accent { color: #4a4e2a !important; }
-    body.day-mode .hero-tagline { color: #5a5e40 !important; }
-    body.day-mode .hero-eyebrow { color: #5a5530 !important; }
-    body.day-mode .hero-bg {
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(140,150,90,.2) 0%, transparent 65%),
-                  #d8d4c0 !important;
+    /* ── SCROLL PROGRESS ─────────────────────────────── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; z-index: 9998; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--sand));
+      width: 0%; pointer-events: none; transition: width .1s linear;
     }
 
-    /* FAQ */
-    body.day-mode .faq-q       { color: #2a2e18 !important; }
-    body.day-mode .faq-q:hover { color: #1e2210 !important; }
-    body.day-mode .faq-icon    { color: #5a5530 !important; }
-    body.day-mode .faq-a p     { color: #4a4e38 !important; }
-    body.day-mode .faq-item    { border-bottom-color: rgba(80,90,50,.2) !important; }
-    body.day-mode .faq-item.open .faq-q { color: #1e2210 !important; }
-
-    /* Section headers y section-tag */
-    body.day-mode .section-header h2 { color: #3a3e20 !important; }
-    body.day-mode .section-tag        { color: #5a5530 !important; }
-
-    /* Features cards */
-    body.day-mode .feature     { background: rgba(170,165,130,.4) !important; border-color: rgba(80,90,50,.2) !important; }
-    body.day-mode .feature h3  { color: #2a2e18 !important; }
-    body.day-mode .feature-num { color: #5a5530 !important; }
-
-    /* About section */
-    body.day-mode .about-wrap  { background: rgba(180,175,145,.4) !important; }
-    body.day-mode .about-label { color: #1e2210 !important; }
-    body.day-mode .about-label em { color: #4a4e2a !important; }
-    body.day-mode .about-body strong { color: #1e2210 !important; }
-
-    /* Install steps */
-    body.day-mode .step        { border-bottom-color: rgba(80,90,50,.2) !important; }
-    body.day-mode .step-n      { color: #5a5530 !important; }
-    body.day-mode .step-body h3 { color: #2a2e18 !important; }
-    body.day-mode code         { background: rgba(100,110,60,.15) !important; color: #3a3e20 !important; border-color: rgba(80,90,50,.3) !important; }
-    body.day-mode .req-item    { background: rgba(170,165,130,.4) !important; }
-    body.day-mode .req-item dt { color: #5a5530 !important; }
-    body.day-mode .req-item dd { color: #2a2e18 !important; }
-
-    /* Download block */
-    body.day-mode .download-meta { color: #5a5e40 !important; }
-    body.day-mode .download-meta span { color: #4a4820 !important; }
-    body.day-mode .counter-badge { border-color: rgba(80,90,50,.3) !important; background: rgba(100,110,60,.1) !important; }
-    body.day-mode .counter-badge .num { color: #3a3e20 !important; }
-
-    /* Reviews section */
-    body.day-mode #resenas     { background: rgba(175,170,138,.3) !important; border-color: rgba(80,90,50,.15) !important; }
-
-    /* Nav links hardcodeados */
-    body.day-mode nav a        { color: #4a4e30 !important; }
-    body.day-mode nav a:hover  { color: #1e2210 !important; }
-
-    /* Version tag y footer */
-    body.day-mode .version-tag { color: #5a5530 !important; border-color: rgba(80,90,50,.3) !important; }
-
-    #theme-toggle {
-      background: none;
-      border: 1px solid rgba(140,127,59,.35);
-      color: #8C7F3B;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .12em;
-      padding: .3rem .7rem;
-      cursor: crosshair;
-      transition: background .2s, color .2s;
-    }
-    #theme-toggle:hover { background: rgba(140,127,59,.15); color: #BFBB80; }
-
+    /* ── NAV ─────────────────────────────────────────── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: .9rem 5vw;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      height: var(--nav-h); display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
       background: rgba(10,11,7,.92);
       border-bottom: 1px solid rgba(140,127,59,.2);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
+      transition: background .3s, border-color .3s;
     }
-
-    .nav-logo {
-      display: flex; align-items: center; gap: .8rem;
-      text-decoration: none;
-    }
-    .nav-logo img {
-      height: 36px; width: auto;
-      image-rendering: pixelated;
-    }
-    .nav-logo span {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: .2em;
-      color: var(--sand);
-    }
-
-    .nav-links {
-      display: flex; gap: 2rem; list-style: none;
-    }
+    nav.scrolled { background: rgba(10,11,7,.98); border-bottom-color: rgba(140,127,59,.3); }
+    .nav-logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .nav-logo img { height: 30px; image-rendering: pixelated; transition: filter .2s; }
+    .nav-logo:hover img { filter: drop-shadow(0 0 8px rgba(191,187,128,.5)); }
+    .nav-logo span { font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .22em; color: var(--sand); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
     .nav-links a {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .78rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .2s;
+      font-family: 'Share Tech Mono', monospace; font-size: .73rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      transition: color .2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transition: transform .2s; transform-origin: left;
     }
     .nav-links a:hover { color: var(--sand); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-actions { display: flex; align-items: center; gap: 1.2rem; }
+    .nav-actions a, .nav-actions button {
+      font-family: 'Share Tech Mono', monospace; font-size: .71rem; letter-spacing: .13em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      background: none; border: none; cursor: crosshair; transition: color .2s;
+    }
+    .nav-actions a:hover { color: var(--sand); }
+    .nav-username { color: var(--gold) !important; }
+    .nav-edit {
+      color: var(--muted) !important; font-size: .95rem !important;
+      padding: .15rem .45rem !important; border: 1px solid rgba(140,127,59,.25) !important;
+      transition: color .2s, border-color .2s, background .2s !important;
+    }
+    .nav-edit:hover { color: var(--sand) !important; border-color: rgba(140,127,59,.55) !important; background: rgba(140,127,59,.08) !important; }
+    .nav-register {
+      padding: .28rem .8rem !important;
+      border: 1px solid rgba(140,127,59,.35) !important;
+      color: var(--sand) !important;
+    }
+    .nav-register:hover { background: rgba(140,127,59,.1) !important; }
+    .nav-admin-link {
+      padding: .28rem .8rem !important;
+      border: 1px solid rgba(140,127,59,.35) !important;
+      color: var(--sand) !important;
+    }
+    #theme-toggle {
+      background: none; border: 1px solid rgba(140,127,59,.3); color: var(--gold);
+      font-family: 'Share Tech Mono', monospace; font-size: .68rem; letter-spacing: .1em;
+      padding: .27rem .6rem; cursor: crosshair; transition: background .2s, color .2s;
+    }
+    #theme-toggle:hover { background: rgba(140,127,59,.12); color: var(--sand); }
 
-    /* ── HERO ─────────────────────────────────────────────── */
+    /* Mobile burger */
+    .nav-burger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: crosshair; padding: .3rem;
+    }
+    .nav-burger span { display: block; width: 22px; height: 2px; background: var(--muted); transition: transform .25s, opacity .25s, background .2s; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--sand); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--sand); }
+    .nav-mobile {
+      position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 299;
+      background: rgba(10,11,7,.97); border-bottom: 1px solid rgba(140,127,59,.2);
+      padding: 1.2rem 5vw 1.5rem;
+      flex-direction: column; gap: .8rem;
+      transform: translateY(-8px); opacity: 0;
+      transition: transform .25s, opacity .25s;
+      pointer-events: none; display: flex;
+    }
+    .nav-mobile.open { transform: none; opacity: 1; pointer-events: all; }
+    .nav-mobile a, .nav-mobile button {
+      font-family: 'Share Tech Mono', monospace; font-size: .78rem; letter-spacing: .13em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      background: none; border: none; cursor: crosshair; transition: color .2s;
+      padding: .5rem 0; border-bottom: 1px solid rgba(87,101,51,.1); text-align: left;
+    }
+    .nav-mobile a:hover { color: var(--sand); }
+
+    /* ── FLASH ───────────────────────────────────────── */
+    .flash-wrap {
+      position: fixed; top: calc(var(--nav-h) + .8rem); left: 50%; transform: translateX(-50%);
+      z-index: 500; display: flex; flex-direction: column; gap: .5rem;
+      min-width: 320px; max-width: 560px; width: calc(100% - 3rem);
+    }
+    .flash {
+      padding: .85rem 1.4rem; font-family: 'Share Tech Mono', monospace;
+      font-size: .76rem; letter-spacing: .09em; text-align: center; border: 1px solid;
+      animation: flashIn .3s ease; transition: opacity .4s, transform .4s;
+    }
+    .flash.error   { background: rgba(100,20,20,.95); border-color: rgba(200,80,80,.45); color: #f0a0a0; }
+    .flash.success { background: rgba(30,55,20,.95);  border-color: rgba(87,180,87,.35); color: #90d090; }
+    .flash.warning { background: rgba(70,55,10,.95);  border-color: rgba(200,170,50,.4); color: #e0c860; }
+    @keyframes flashIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:none; } }
+
+    /* ── HERO ────────────────────────────────────────── */
     .hero {
       position: relative; z-index: 1;
       min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      text-align: center;
-      padding: 8rem 5vw 5rem;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: calc(var(--nav-h) + 4rem) 5vw 5rem;
       overflow: hidden;
     }
-
-    /* Hex pattern */
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(87,101,51,.3) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(140,127,59,.12) 0%, transparent 60%),
-        radial-gradient(ellipse 30% 50% at 80% 20%, rgba(191,187,128,.06) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(87,101,51,.28) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(140,127,59,.1) 0%, transparent 60%),
+        radial-gradient(ellipse 30% 50% at 80% 20%, rgba(191,187,128,.05) 0%, transparent 50%),
         var(--dark);
+    }
+    /* Noise grain overlay */
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
     }
 
     /* Corner brackets */
-    .bracket {
-      position: absolute; z-index: 1;
-      width: 60px; height: 60px;
-      pointer-events: none;
-    }
-    .bracket--tl { top: 5rem; left: 5vw; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
-    .bracket--tr { top: 5rem; right: 5vw; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
-    .bracket--bl { bottom: 4rem; left: 5vw; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
-    .bracket--br { bottom: 4rem; right: 5vw; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+    .bracket { position: absolute; z-index: 2; width: 56px; height: 56px; pointer-events: none; }
+    .bracket--tl { top: calc(var(--nav-h) + 1.5rem); left: 5vw; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .bracket--tr { top: calc(var(--nav-h) + 1.5rem); right: 5vw; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+    .bracket--bl { bottom: 3rem; left: 5vw; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .bracket--br { bottom: 3rem; right: 5vw; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
 
     .hero-logo {
-      position: relative; z-index: 1;
-      width: clamp(160px, 20vw, 240px);
-      image-rendering: pixelated;
-      opacity: 0;
-      animation: dropIn .7s .1s cubic-bezier(.22,1,.36,1) forwards;
-      filter: drop-shadow(0 0 24px rgba(140,127,59,.5));
+      position: relative; z-index: 2;
+      width: clamp(140px, 18vw, 210px); image-rendering: pixelated;
+      opacity: 0; animation: dropIn .7s .1s cubic-bezier(.22,1,.36,1) forwards;
+      filter: drop-shadow(0 0 28px rgba(140,127,59,.5));
     }
-
     .hero-eyebrow {
-      position: relative; z-index: 1;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .78rem;
-      letter-spacing: .4em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-top: 1.5rem;
-      opacity: 0;
-      animation: fadeUp .5s .5s ease forwards;
+      position: relative; z-index: 2;
+      font-family: 'Share Tech Mono', monospace; font-size: .74rem;
+      letter-spacing: .4em; color: var(--gold); text-transform: uppercase;
+      margin-top: 1.4rem; opacity: 0; animation: fadeUp .5s .5s ease forwards;
     }
-
     .hero-title {
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
       font-family: 'Oswald', sans-serif;
-      font-size: clamp(4rem, 12vw, 9rem);
-      font-weight: 700;
-      letter-spacing: .08em;
-      line-height: .95;
-      color: var(--white);
-      text-transform: uppercase;
-      margin-top: .4rem;
-      opacity: 0;
-      animation: fadeUp .6s .65s ease forwards;
+      font-size: clamp(4rem, 11vw, 8.5rem); font-weight: 700;
+      letter-spacing: .08em; line-height: .95;
+      color: var(--white); text-transform: uppercase;
+      margin-top: .4rem; opacity: 0; animation: fadeUp .6s .65s ease forwards;
     }
     .hero-title .accent { color: var(--sand); }
-
     .hero-tagline {
-      position: relative; z-index: 1;
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      font-weight: 300;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 1rem;
-      opacity: 0;
-      animation: fadeUp .5s .8s ease forwards;
+      position: relative; z-index: 2;
+      font-size: clamp(.9rem, 1.8vw, 1.1rem); font-weight: 300;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+      margin-top: .9rem; opacity: 0; animation: fadeUp .5s .8s ease forwards;
     }
 
-    /* ── DOWNLOAD BLOCK ───────────────────────────────────── */
+    /* ── DOWNLOAD BLOCK ──────────────────────────────── */
     .download-block {
-      position: relative; z-index: 1;
-      margin-top: 3rem;
-      display: flex; flex-direction: column; align-items: center; gap: 1rem;
-      opacity: 0;
-      animation: fadeUp .6s 1s ease forwards;
+      position: relative; z-index: 2;
+      margin-top: 2.8rem;
+      display: flex; flex-direction: column; align-items: center; gap: .9rem;
+      opacity: 0; animation: fadeUp .6s 1s ease forwards;
     }
-
     .btn-download {
-      display: inline-flex; align-items: center; gap: .9rem;
-      padding: 1.1rem 3rem;
-      background: var(--olive);
-      border: 2px solid var(--gold);
-      color: var(--sand);
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
+      display: inline-flex; align-items: center; gap: .85rem;
+      padding: 1rem 2.8rem;
+      background: var(--olive); border: 2px solid var(--gold); color: var(--sand);
+      font-family: 'Oswald', sans-serif; font-size: 1.35rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+      position: relative; overflow: hidden;
       transition: background .2s, color .2s, transform .15s, box-shadow .2s;
       clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     }
@@ -328,425 +228,464 @@
       position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(191,187,128,.12) 0%, transparent 50%);
     }
+    /* Sweep shimmer on hover */
+    .btn-download::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+      transition: left .4s ease;
+    }
+    .btn-download:hover::after { left: 160%; }
     .btn-download:hover {
-      background: var(--gold);
-      color: var(--dark);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(140,127,59,.35);
+      background: var(--gold); color: var(--dark);
+      transform: translateY(-3px); box-shadow: 0 14px 36px rgba(140,127,59,.35);
     }
     .btn-download:active { transform: translateY(-1px); }
-
-    .btn-download .dl-icon {
-      width: 22px; height: 22px; flex-shrink: 0;
-      animation: bounce 2s 2s ease-in-out infinite;
-    }
+    .btn-download .dl-icon { width: 20px; height: 20px; flex-shrink: 0; animation: bounce 2.5s 1.5s ease-in-out infinite; }
 
     .download-meta {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .73rem;
-      letter-spacing: .15em;
-      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace; font-size: .71rem;
+      letter-spacing: .15em; color: var(--muted);
     }
     .download-meta span { color: var(--gold); }
-
-    /* download counter */
     .counter-badge {
       display: inline-flex; align-items: center; gap: .5rem;
-      padding: .4rem 1rem;
-      border: 1px solid rgba(140,127,59,.25);
-      background: rgba(140,127,59,.06);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .75rem;
-      letter-spacing: .12em;
-      color: var(--muted);
+      padding: .4rem 1rem; border: 1px solid rgba(140,127,59,.22);
+      background: rgba(140,127,59,.05);
+      font-family: 'Share Tech Mono', monospace; font-size: .72rem;
+      letter-spacing: .1em; color: var(--muted);
+      transition: border-color .2s;
     }
-    .counter-badge .num { color: var(--sand); font-size: .9rem; }
+    .counter-badge:hover { border-color: rgba(140,127,59,.4); }
+    .counter-badge .num { color: var(--sand); font-size: .88rem; }
 
-    /* ── SECTION WRAPPER ──────────────────────────────────── */
+    /* ── SECTION SHELL ───────────────────────────────── */
     section { position: relative; z-index: 1; }
-
-    .section-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 5rem 5vw;
-    }
-
+    .section-inner { max-width: 1080px; margin: 0 auto; padding: 5rem 5vw; }
     .section-header {
-      display: flex; align-items: center; gap: 1.2rem;
-      margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1.2rem; margin-bottom: 2.8rem;
     }
     .section-header h2 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 500;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--sand);
+      font-family: 'Oswald', sans-serif; font-size: 1.55rem; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--sand);
+      white-space: nowrap;
     }
     .section-header::after {
-      content: '';
-      flex: 1; height: 1px;
+      content: ''; flex: 1; height: 1px;
       background: linear-gradient(90deg, rgba(140,127,59,.4), transparent);
     }
     .section-tag {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .25em;
-      color: var(--gold);
+      font-family: 'Share Tech Mono', monospace; font-size: .68rem;
+      letter-spacing: .25em; color: var(--gold); white-space: nowrap;
     }
 
-    /* ── FEATURES GRID ────────────────────────────────────── */
+    /* ── FEATURES ────────────────────────────────────── */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 2px;
     }
-
     .feature {
-      background: rgba(26,29,15,.8);
-      border: 1px solid rgba(87,101,51,.2);
+      background: rgba(22,25,13,.85);
+      border: 1px solid rgba(87,101,51,.18);
       padding: 2rem 1.8rem;
-      position: relative;
-      transition: border-color .25s, background .25s;
+      position: relative; overflow: hidden;
+      transition: border-color .25s, background .25s, transform .2s;
     }
+    /* Left accent bar */
+    .feature::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 2px; height: 0;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      transition: height .35s ease;
+    }
+    .feature:hover::before { height: 100%; }
+    /* Sweep shimmer */
+    .feature::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(191,187,128,.04), transparent);
+      transition: left .5s ease;
+    }
+    .feature:hover::after { left: 150%; }
     .feature:hover {
-      border-color: rgba(140,127,59,.5);
-      background: rgba(87,101,51,.15);
+      border-color: rgba(140,127,59,.45);
+      background: rgba(87,101,51,.14);
+      transform: translateY(-2px);
     }
     .feature-num {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .7rem;
-      color: var(--gold);
-      letter-spacing: .2em;
-      margin-bottom: .8rem;
+      font-family: 'Share Tech Mono', monospace; font-size: .68rem;
+      color: var(--gold); letter-spacing: .2em; margin-bottom: .8rem;
     }
     .feature h3 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      color: var(--light);
-      margin-bottom: .6rem;
-      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 500;
+      letter-spacing: .1em; color: var(--light); margin-bottom: .55rem; text-transform: uppercase;
     }
-    .feature p {
-      font-size: .92rem;
-      line-height: 1.65;
-      color: var(--muted);
-      font-weight: 300;
-    }
+    .feature p { font-size: .91rem; line-height: 1.65; color: var(--muted); font-weight: 300; }
 
-    /* ── ABOUT ────────────────────────────────────────────── */
+    /* ── ABOUT ───────────────────────────────────────── */
     .about-wrap {
-      background: rgba(26,29,15,.5);
-      border-top: 1px solid rgba(87,101,51,.15);
-      border-bottom: 1px solid rgba(87,101,51,.15);
+      background: rgba(16,18,10,.5);
+      border-top: 1px solid rgba(87,101,51,.13);
+      border-bottom: 1px solid rgba(87,101,51,.13);
     }
     .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start;
     }
     .about-label {
       font-family: 'Oswald', sans-serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: .06em;
-      line-height: 1;
-      text-transform: uppercase;
-      color: var(--white);
-      position: sticky; top: 5rem;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: .06em; line-height: 1; text-transform: uppercase;
+      color: var(--white); position: sticky; top: 5rem;
     }
     .about-label em { color: var(--sand); font-style: normal; display: block; }
-    .about-body p {
-      font-size: 1.02rem;
-      line-height: 1.85;
-      color: var(--muted);
-      font-weight: 300;
-    }
+    .about-body p { font-size: 1rem; line-height: 1.85; color: var(--muted); font-weight: 300; }
     .about-body p + p { margin-top: 1.2rem; }
     .about-body strong { color: var(--light); font-weight: 600; }
 
-    /* ── INSTALL STEPS ────────────────────────────────────── */
-    .steps {
-      display: flex; flex-direction: column; gap: 0;
-      max-width: 760px;
-    }
-
+    /* ── INSTALL STEPS ───────────────────────────────── */
+    .steps { display: flex; flex-direction: column; max-width: 760px; }
     .step {
-      display: grid;
-      grid-template-columns: 52px 1fr;
-      gap: 1.8rem;
-      padding: 2rem 0;
-      border-bottom: 1px solid rgba(87,101,51,.15);
+      display: grid; grid-template-columns: 64px 1fr; gap: 1.8rem;
+      padding: 2rem 0; border-bottom: 1px solid rgba(87,101,51,.12);
+      transition: background .2s;
     }
     .step:last-child { border: none; }
-
     .step-n {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .15em;
-      color: var(--gold);
-      padding-top: .2rem;
+      font-family: 'Share Tech Mono', monospace; font-size: .68rem;
+      letter-spacing: .15em; color: var(--gold); padding-top: .2rem; line-height: 1.7;
     }
+    .step-n strong { display: block; font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; color: rgba(140,127,59,.25); letter-spacing: .04em; line-height: 1; margin-top: .1rem; }
     .step-body h3 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--light);
-      margin-bottom: .45rem;
+      font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--light); margin-bottom: .45rem;
     }
-    .step-body p {
-      font-size: .92rem;
-      line-height: 1.65;
-      color: var(--muted);
-    }
+    .step-body p { font-size: .91rem; line-height: 1.65; color: var(--muted); }
+    .step-body p + p { margin-top: .5rem; }
     code {
       display: inline-block;
-      background: rgba(87,101,51,.2);
-      border: 1px solid rgba(140,127,59,.25);
-      padding: .1rem .45rem;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .82rem;
-      color: var(--sand);
+      background: rgba(87,101,51,.18); border: 1px solid rgba(140,127,59,.22);
+      padding: .1rem .45rem; font-family: 'Share Tech Mono', monospace;
+      font-size: .8rem; color: var(--sand);
     }
 
-    /* ── SYSREQ TABLE ─────────────────────────────────────── */
-    .sysreq {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2px;
-      margin-top: 1rem;
-    }
+    /* Sysreq */
+    .sysreq { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; margin-top: 1rem; }
     .req-item {
-      background: rgba(26,29,15,.8);
-      border: 1px solid rgba(87,101,51,.15);
+      background: rgba(22,25,13,.85); border: 1px solid rgba(87,101,51,.14);
       padding: 1rem 1.2rem;
+      transition: border-color .2s;
     }
+    .req-item:hover { border-color: rgba(140,127,59,.35); }
     .req-item dt {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .2em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: .3rem;
+      font-family: 'Share Tech Mono', monospace; font-size: .66rem;
+      letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin-bottom: .3rem;
     }
-    .req-item dd {
-      font-size: .9rem;
-      color: var(--light);
+    .req-item dd { font-size: .9rem; color: var(--light); }
+
+    /* ── VIDEO ───────────────────────────────────────── */
+    .video-embed {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border: 1px solid rgba(140,127,59,.22);
+      box-shadow: 0 0 50px rgba(87,101,51,.18);
+      transition: box-shadow .3s;
+    }
+    .video-embed:hover { box-shadow: 0 0 70px rgba(87,101,51,.28); }
+    .video-embed iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
     }
 
-    /* ── FOOTER ───────────────────────────────────────────── */
+    /* ── REVIEWS ─────────────────────────────────────── */
+    #resenas {
+      background: rgba(9,11,6,.5);
+      border-top: 1px solid rgba(87,101,51,.1);
+    }
+    .rating-big {
+      font-family: 'Oswald', sans-serif; font-size: 3.2rem; font-weight: 700;
+      color: var(--sand); line-height: 1;
+    }
+    .rating-stars { font-size: 1.1rem; letter-spacing: .1em; color: var(--gold); margin-top: .2rem; }
+    .rating-count {
+      font-family: 'Share Tech Mono', monospace; font-size: .66rem;
+      letter-spacing: .15em; color: var(--muted); margin-top: .2rem;
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px; margin-bottom: 3.5rem;
+    }
+    .review-card {
+      background: rgba(22,25,13,.88); border: 1px solid rgba(87,101,51,.16);
+      padding: 1.8rem; position: relative;
+      transition: border-color .25s, background .25s, transform .2s;
+    }
+    .review-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 2px; height: 0;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      transition: height .35s ease;
+    }
+    .review-card:hover::before { height: 100%; }
+    .review-card:hover { border-color: rgba(140,127,59,.35); background: rgba(87,101,51,.12); transform: translateY(-2px); }
+    .review-stars { font-size: .95rem; color: var(--gold); letter-spacing: .08em; margin-bottom: .8rem; }
+    .review-body { font-size: .93rem; line-height: 1.7; color: #a09e7a; font-weight: 300; margin-bottom: 1.2rem; }
+    .review-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(87,101,51,.1); padding-top: .8rem;
+    }
+    .review-author-wrap { display: flex; align-items: center; gap: .6rem; min-width: 0; }
+    .review-avatar {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: 1px solid rgba(140,127,59,.32);
+      object-fit: cover; image-rendering: pixelated;
+    }
+    .review-avatar-ph {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: 1px solid rgba(140,127,59,.28);
+      background: rgba(87,101,51,.14);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Oswald', sans-serif; font-size: .95rem; font-weight: 700; color: var(--gold);
+      line-height: 1;
+    }
+    .review-author { font-family: 'Share Tech Mono', monospace; font-size: .69rem; color: var(--gold); letter-spacing: .1em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .review-date   { font-family: 'Share Tech Mono', monospace; font-size: .64rem; color: var(--muted); flex-shrink: 0; margin-left: .6rem; }
+
+    /* Review form */
+    .review-form-wrap { max-width: 640px; }
+    .form-label {
+      font-family: 'Share Tech Mono', monospace; font-size: .67rem;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--gold);
+      display: block; margin-bottom: .5rem;
+    }
+    .review-textarea {
+      width: 100%; padding: .8rem 1rem;
+      background: rgba(10,11,7,.85); border: 1px solid rgba(140,127,59,.22);
+      color: var(--light); font-family: 'Rajdhani', sans-serif; font-size: .95rem;
+      resize: vertical; outline: none; cursor: text; line-height: 1.6;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .review-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(140,127,59,.1); }
+    .review-textarea::placeholder { color: var(--muted); font-size: .88rem; }
+    .char-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: .3rem; margin-bottom: 1.2rem;
+    }
+    .char-count { font-family: 'Share Tech Mono', monospace; font-size: .64rem; color: var(--muted); }
+
+    /* Star picker */
+    .star-picker { display: flex; gap: .35rem; flex-direction: row-reverse; justify-content: flex-end; margin-bottom: 1.2rem; }
+    .star-picker input { display: none; }
+    .star-picker label {
+      font-size: 1.9rem; color: rgba(87,101,51,.35); cursor: crosshair;
+      transition: color .12s, transform .1s; line-height: 1;
+    }
+    .star-picker label:hover, .star-picker label:hover ~ label { color: var(--gold) !important; transform: scale(1.1); }
+    .star-picker input:checked ~ label { color: var(--sand); }
+
+    .btn-review {
+      padding: .85rem 2.5rem; background: var(--olive); border: 2px solid var(--gold);
+      color: var(--sand); font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; cursor: crosshair;
+      transition: background .2s, color .2s, transform .15s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-review:hover { background: var(--gold); color: var(--dark); transform: translateY(-2px); }
+
+    /* ── FOOTER ──────────────────────────────────────── */
     footer {
       position: relative; z-index: 1;
-      border-top: 1px solid rgba(87,101,51,.15);
-      padding: 2.5rem 5vw;
+      border-top: 1px solid rgba(87,101,51,.12);
+      padding: 2rem 5vw;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
     }
-    footer p {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .12em;
-      color: var(--muted);
-    }
+    footer p { font-family: 'Share Tech Mono', monospace; font-size: .68rem; letter-spacing: .1em; color: rgba(107,106,74,.5); }
     .version-tag {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .15em;
-      color: var(--gold);
-      border: 1px solid rgba(140,127,59,.3);
-      padding: .25rem .7rem;
+      font-family: 'Share Tech Mono', monospace; font-size: .68rem; letter-spacing: .15em;
+      color: var(--gold); border: 1px solid rgba(140,127,59,.25); padding: .22rem .65rem;
     }
 
-    /* ── SCROLL REVEAL ────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
+    /* ── SCROLL REVEAL ───────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
-    /* ── KEYFRAMES ────────────────────────────────────────── */
-    @keyframes dropIn {
-      from { opacity: 0; transform: translateY(-30px) scale(.92); }
-      to   { opacity: 1; transform: none; }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: none; }
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(5px); }
-    }
+    /* ── KEYFRAMES ───────────────────────────────────── */
+    @keyframes dropIn { from { opacity:0; transform:translateY(-28px) scale(.93); } to { opacity:1; transform:none; } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+    @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(5px); } }
 
-    /* ── FLASH MESSAGE ────────────────────────────────────── */
+    /* ── TOAST ───────────────────────────────────────── */
     #dl-toast {
-      display: none;
-      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      z-index: 500;
-      background: var(--olive);
-      border: 1px solid var(--gold);
-      color: var(--sand);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: .8rem;
-      letter-spacing: .12em;
-      padding: .8rem 2rem;
-      text-align: center;
-      animation: none;
+      display: none; position: fixed; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      z-index: 600;
+      background: var(--olive); border: 1px solid var(--gold); color: var(--sand);
+      font-family: 'Share Tech Mono', monospace; font-size: .78rem; letter-spacing: .12em;
+      padding: .8rem 2rem; text-align: center; white-space: nowrap;
+      animation: toastIn .35s ease;
     }
+    @keyframes toastIn { from { opacity:0; transform:translateX(-50%) translateY(8px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
 
-    /* ── FLASH MESSAGES ──────────────────────────────── */
-    .flash-wrap {
-      position: fixed; top: 5rem; left: 50%; transform: translateX(-50%);
-      z-index: 9999; display: flex; flex-direction: column; gap: .5rem;
-      min-width: 320px; max-width: 600px;
+    /* ── DAY MODE ────────────────────────────────────── */
+    body.day-mode {
+      background: #d4d0b8 !important;
+      --white: #1e2210; --sand: #4a4e2a; --gold: #5a5530;
+      --light: #3a3e28; --muted: #6a6850; --dark: #d4d0b8;
     }
-    .flash {
-      padding: .9rem 1.5rem;
-      font-family: 'Share Tech Mono', monospace; font-size: .78rem;
-      letter-spacing: .08em; line-height: 1.5; text-align: center;
-      border: 1px solid;
-    }
-    .flash.error   { background: rgba(100,20,20,.95); border-color: rgba(200,80,80,.5); color: #f0a0a0; }
-    .flash.success { background: rgba(20,50,20,.95);  border-color: rgba(80,180,80,.4); color: #90d090; }
-    .flash.warning { background: rgba(70,55,10,.95);  border-color: rgba(200,170,50,.4); color: #e0c860; }
+    body.day-mode nav { background: rgba(210,205,185,.97) !important; border-bottom-color: rgba(80,90,50,.22) !important; }
+    body.day-mode section, body.day-mode footer, body.day-mode .hero { background: transparent !important; }
+    body.day-mode .hero-bg { background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(140,150,90,.18) 0%, transparent 65%), #d4d0b8 !important; }
+    body.day-mode .feature { background: rgba(170,165,130,.4) !important; border-color: rgba(80,90,50,.2) !important; }
+    body.day-mode .feature:hover { background: rgba(160,155,120,.55) !important; border-color: rgba(80,90,50,.45) !important; }
+    body.day-mode .about-wrap { background: rgba(175,170,140,.35) !important; border-color: rgba(80,90,50,.18) !important; }
+    body.day-mode .req-item { background: rgba(170,165,130,.4) !important; border-color: rgba(80,90,50,.2) !important; }
+    body.day-mode .review-card { background: rgba(170,165,130,.4) !important; border-color: rgba(80,90,50,.2) !important; }
+    body.day-mode .review-card:hover { background: rgba(155,150,118,.55) !important; }
+    body.day-mode #resenas { background: rgba(165,160,128,.2) !important; border-color: rgba(80,90,50,.12) !important; }
+    body.day-mode .review-textarea { background: rgba(175,170,148,.8) !important; border-color: rgba(80,90,50,.3) !important; color: #1e2210 !important; }
+    body.day-mode h1, body.day-mode h2, body.day-mode h3 { color: #1e2210 !important; }
+    body.day-mode p { color: #3a3e28 !important; }
+    body.day-mode .hero-tagline { color: #5a5e40 !important; }
+    body.day-mode .section-tag { color: #5a5530 !important; }
+    body.day-mode .about-body p { color: #4a4e38 !important; }
+    body.day-mode #chat-window  { background: #c4c0a8 !important; }
+    body.day-mode .chat-header  { background: #b4b098 !important; }
+    body.day-mode .cmsg.bot  { background: #b4b098 !important; color: #1e2210 !important; }
+    body.day-mode .cmsg.user { background: #a4a088 !important; color: #1e2210 !important; }
+    body.day-mode #chat-input { background: #b4b098 !important; color: #1e2210 !important; border-color: rgba(80,90,50,.3) !important; }
+    body.day-mode #chat-send  { background: #6a7040 !important; color: #d4d0b8 !important; }
+    body.day-mode [style*="color:#BFBB80"] { color: #3a3820 !important; }
+    body.day-mode [style*="color:#8C7F3B"] { color: #5a5530 !important; }
+    body.day-mode [style*="color:#6b6a4a"] { color: #5a5840 !important; }
+    body.day-mode [style*="color:#a09e7a"] { color: #4a4830 !important; }
 
-    @media (max-width: 680px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .about-label { position: static; }
+    /* Mobile */
+    @media (max-width: 720px) {
       .nav-links { display: none; }
+      .nav-actions .nav-links-hide { display: none; }
+      .nav-burger { display: flex !important; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-label { position: static; }
+    }
+    @media (max-width: 540px) {
+      .nav-actions { display: none; }
     }
   </style>
 </head>
 <body>
 
+<div id="progress-bar"></div>
+
 <!-- NAV -->
-<nav>
+<nav id="main-nav">
   <a href="#" class="nav-logo">
     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Reconquest logo">
     <span>Reconquest</span>
   </a>
   <ul class="nav-links">
     <li><a href="#features">Mecánicas</a></li>
-    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#sobre">Proyecto</a></li>
     <li><a href="#instalar">Instalar</a></li>
+    <li><a href="#resenas">Reseñas</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:1.2rem;">
+  <div class="nav-actions">
     {% if user %}
-      <span style="font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.12em;color:#8C7F3B;">// {{ user['username'] }}</span>
-      {% if user['is_admin'] %}<a href="/admin" style="font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#BFBB80;text-decoration:none;border:1px solid rgba(140,127,59,.35);padding:.3rem .8rem;">Admin</a>{% endif %}
-      <a href="/logout" style="font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#6b6a4a;text-decoration:none;">Salir</a>
+      <a href="/profile" class="nav-username" title="Ver perfil">// {{ user['username'] }}</a>
+      <a href="/profile/edit" class="nav-edit" title="Editar perfil">✎</a>
+      {% if user['is_admin'] %}<a href="/admin" class="nav-admin-link">Admin</a>{% endif %}
+      <a href="/logout">Salir</a>
     {% else %}
-      <a href="/login"    style="font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#6b6a4a;text-decoration:none;">Login</a>
-      <a href="/register" style="font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#BFBB80;text-decoration:none;border:1px solid rgba(140,127,59,.35);padding:.3rem .8rem;">Registro</a>
+      <a href="/login">Login</a>
+      <a href="/register" class="nav-register">Registro</a>
     {% endif %}
-    <button id="theme-toggle" onclick="toggleTheme()" title="Modo día/noche">☀️ Día</button>
+    <button id="theme-toggle" onclick="toggleTheme()">☀ Día</button>
   </div>
+  <button class="nav-burger" id="nav-burger"><span></span><span></span><span></span></button>
 </nav>
+
+<!-- Mobile nav -->
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#features">Mecánicas</a>
+  <a href="#sobre">Proyecto</a>
+  <a href="#instalar">Instalar</a>
+  <a href="#resenas">Reseñas</a>
+  {% if user %}
+    <a href="/profile">// {{ user['username'] }}</a>
+    <a href="/profile/edit">✎ Editar perfil</a>
+    <a href="/logout">Salir</a>
+  {% else %}
+    <a href="/login">Login</a>
+    <a href="/register">Registro</a>
+  {% endif %}
+</div>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
   <div class="flash-wrap" id="flash-container">
     {% for category, message in messages %}
-    <div class="flash {{ category }}">{% if category == 'error' %}⚠ {% elif category == 'success' %}✓ {% endif %}{{ message }}</div>
+      <div class="flash {{ category }}">{% if category == 'error' %}⚠ {% elif category == 'success' %}✓ {% endif %}{{ message }}</div>
     {% endfor %}
   </div>
   <script>
     setTimeout(() => {
       const fc = document.getElementById('flash-container');
-      if (fc) { fc.style.transition='opacity .4s'; fc.style.opacity='0'; setTimeout(()=>fc.remove(),400); }
-    }, 5000);
+      if (fc) { fc.querySelectorAll('.flash').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(-6px)';}); setTimeout(()=>fc.remove(),420); }
+    }, 4200);
   </script>
   {% endif %}
 {% endwith %}
 
-<!-- HERO -->
+<!-- ── HERO ──────────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
   <div class="bracket bracket--tl"></div>
   <div class="bracket bracket--tr"></div>
   <div class="bracket bracket--bl"></div>
   <div class="bracket bracket--br"></div>
 
-  <img class="hero-logo"
-       src="{{ url_for('static', filename='img/logo.png') }}"
-       alt="Reconquest">
-
+  <img class="hero-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Reconquest">
   <p class="hero-eyebrow">Portugal · 1974 · Ucronía histórica</p>
-
-  <h1 class="hero-title">
-    <span class="accent">Re</span>conquest
-  </h1>
-
+  <h1 class="hero-title"><span class="accent">Re</span>conquest</h1>
   <p class="hero-tagline">Estrategia en tiempo real &nbsp;·&nbsp; La revolución fracasó</p>
 
   <div class="download-block">
     {% if mobile %}
-    <!-- MOBILE: no se puede descargar -->
-    <div style="padding:1.4rem 2.5rem; border:1px solid rgba(160,112,112,.35);
-                background:rgba(160,112,112,.08);
-                font-family:'Share Tech Mono',monospace; font-size:.82rem;
-                letter-spacing:.12em; color:#e8b0b0; text-align:center; max-width:460px; line-height:1.8;">
-      <span style="font-size:1.2rem;">📱</span><br>
-      Reconquest no está disponible para dispositivos móviles.<br>
-      <span style="color:var(--muted);font-size:.72rem;">Accede desde un PC con Windows o Linux para descargar.</span>
+    <div style="padding:1.4rem 2.5rem;border:1px solid rgba(160,112,112,.35);background:rgba(160,112,112,.08);font-family:'Share Tech Mono',monospace;font-size:.8rem;letter-spacing:.12em;color:#e8b0b0;text-align:center;max-width:460px;line-height:1.9;">
+      📱&nbsp; Reconquest no está disponible para dispositivos móviles.<br>
+      <span style="color:var(--muted);font-size:.7rem;">Accede desde un PC con Windows o Linux.</span>
     </div>
     {% elif client_os == 'mac' %}
-    <!-- macOS: no soportado -->
-    <div style="padding:1.4rem 2.5rem; border:1px solid rgba(160,112,112,.35);
-                background:rgba(160,112,112,.08);
-                font-family:'Share Tech Mono',monospace; font-size:.82rem;
-                letter-spacing:.12em; color:#e8b0b0; text-align:center; max-width:460px; line-height:1.8;">
-      <span style="font-size:1.2rem;">🍎</span><br>
-      Reconquest no está disponible para macOS.<br>
-      <span style="color:var(--muted);font-size:.72rem;">Disponible para Windows 10/11 y Linux (64-bit).</span>
+    <div style="padding:1.4rem 2.5rem;border:1px solid rgba(160,112,112,.35);background:rgba(160,112,112,.08);font-family:'Share Tech Mono',monospace;font-size:.8rem;letter-spacing:.12em;color:#e8b0b0;text-align:center;max-width:460px;line-height:1.9;">
+      🍎&nbsp; Reconquest no está disponible para macOS.<br>
+      <span style="color:var(--muted);font-size:.7rem;">Disponible para Windows 10/11 y Linux (64-bit).</span>
     </div>
     {% elif installer_exists %}
-    <a href="{{ url_for('download') if user else url_for('login', next='/download') }}" class="btn-download" id="dl-btn">
-      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="2.5" stroke-linecap="square">
+    <a href="{{ url_for('main.download') if user else url_for('auth.login', next='/download') }}" class="btn-download" id="dl-btn">
+      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      {% if client_os == 'linux' %}
-      Descargar para Linux
-      {% else %}
-      Descargar Ahora
-      {% endif %}
+      {% if client_os == 'linux' %}Descargar para Linux{% else %}Descargar Ahora{% endif %}
     </a>
     <p class="download-meta">
       v{{ version }} &nbsp;·&nbsp;
-      {% if client_os == 'linux' %}
-        Linux 64-bit &nbsp;·&nbsp; <span>.sh</span>
-      {% else %}
-        Windows 64-bit &nbsp;·&nbsp; <span>.exe</span>
-      {% endif %}
+      {% if client_os == 'linux' %}Linux 64-bit &nbsp;·&nbsp; <span>.sh</span>
+      {% else %}Windows 64-bit &nbsp;·&nbsp; <span>.exe</span>{% endif %}
       {% if installer_size %}&nbsp;·&nbsp; <span>{{ installer_size }} MB</span>{% endif %}
     </p>
     {% else %}
-    <div style="padding:1.2rem 2.5rem; border:1px solid rgba(140,127,59,.3);
-                font-family:'Share Tech Mono',monospace; font-size:.82rem;
-                letter-spacing:.15em; color:var(--muted); text-align:center;">
+    <div style="padding:1.2rem 2.5rem;border:1px solid rgba(140,127,59,.28);font-family:'Share Tech Mono',monospace;font-size:.8rem;letter-spacing:.15em;color:var(--muted);text-align:center;">
       PRÓXIMAMENTE &nbsp;//&nbsp; INSTALADOR EN PREPARACIÓN
     </div>
     {% endif %}
     <div class="counter-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span class="num">{{ downloads }}</span> descargas totales
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- ── FEATURES ──────────────────────────────────────────────────────── -->
 <section id="features">
   <div class="section-inner">
     <div class="section-header reveal">
@@ -778,7 +717,7 @@
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ── ABOUT ─────────────────────────────────────────────────────────── -->
 <div class="about-wrap" id="sobre">
   <div class="section-inner">
     <div class="about-grid">
@@ -786,108 +725,76 @@
         <h2 class="about-label reveal">El <em>Proyecto</em></h2>
       </div>
       <div class="about-body reveal">
-        <p>
-          <strong>Reconquest</strong> es un videojuego de estrategia en tiempo real (RTS)
-          desarrollado con <strong>Unity</strong> y <strong>C#</strong> como Trabajo de Fin de Grado.
-        </p>
-        <p>
-          El juego se sitúa en una <strong>ucronía histórica en Portugal</strong>, donde el fracaso de la
-          Revolución de los Claveles de 1974 desencadena una guerra civil ficticia. El jugador
-          asume el mando de una facción en conflicto por el control del territorio.
-        </p>
-        <p>
-          La arquitectura se sustenta en tres subsistemas: <strong>gestión de entidades</strong>
-          (unidades), <strong>control de recursos</strong> mediante conquista de fábricas, y
-          un <strong>sistema de captura de sectores</strong> que determina el avance estratégico.
-        </p>
-        <p>
-          La economía rompe con la recolección pasiva clásica: el flujo de recursos depende
-          íntegramente de la <strong>conquista y mantenimiento de nodos industriales</strong>,
-          creando un ciclo de combate continuo y dinámico.
-        </p>
+        <p><strong>Reconquest</strong> es un videojuego de estrategia en tiempo real (RTS) desarrollado con <strong>Unity</strong> y <strong>C#</strong> como Trabajo de Fin de Grado.</p>
+        <p>El juego se sitúa en una <strong>ucronía histórica en Portugal</strong>, donde el fracaso de la Revolución de los Claveles de 1974 desencadena una guerra civil ficticia. El jugador asume el mando de una facción en conflicto por el control del territorio.</p>
+        <p>La arquitectura se sustenta en tres subsistemas: <strong>gestión de entidades</strong> (unidades), <strong>control de recursos</strong> mediante conquista de fábricas, y un <strong>sistema de captura de sectores</strong> que determina el avance estratégico.</p>
+        <p>La economía rompe con la recolección pasiva clásica: el flujo de recursos depende íntegramente de la <strong>conquista y mantenimiento de nodos industriales</strong>, creando un ciclo de combate continuo y dinámico.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- INSTALL -->
+<!-- ── INSTALL ────────────────────────────────────────────────────────── -->
 <section id="instalar">
   <div class="section-inner">
     <div class="section-header reveal">
-      <span class="section-tag">// 03</span>
+      <span class="section-tag">// 02</span>
       <h2>Instalación</h2>
     </div>
     <div class="steps">
       <div class="step reveal">
-        <div class="step-n">PASO<br>01</div>
+        <div class="step-n">PASO<strong>01</strong></div>
         <div class="step-body">
           <h3>Descarga el instalador</h3>
           {% if client_os == 'linux' %}
-          <p>Haz clic en <strong>"Descargar para Linux"</strong> en la parte superior.
-             Se descargará el script <code>Reconquest_Setup_v{{ version }}.sh</code>.</p>
+          <p>Haz clic en <strong>"Descargar para Linux"</strong> arriba. Se descargará <code>Reconquest_Setup_v{{ version }}.sh</code>.</p>
           {% else %}
-          <p>Haz clic en <strong>"Descargar Ahora"</strong> en la parte superior.
-             Se descargará directamente el instalador <code>Reconquest_Setup_v{{ version }}.exe</code>.</p>
+          <p>Haz clic en <strong>"Descargar Ahora"</strong> arriba. Se descargará <code>Reconquest_Setup_v{{ version }}.exe</code>.</p>
           {% endif %}
         </div>
       </div>
       <div class="step reveal">
-        <div class="step-n">PASO<br>02</div>
+        <div class="step-n">PASO<strong>02</strong></div>
         <div class="step-body">
           {% if client_os == 'linux' %}
           <h3>Dale permisos y ejecuta</h3>
-          <p>Abre una terminal en la carpeta de descargas y ejecuta:</p>
           <p><code>chmod +x Reconquest_Setup_v{{ version }}.sh</code></p>
           <p><code>./Reconquest_Setup_v{{ version }}.sh</code></p>
           {% else %}
           <h3>Ejecuta el instalador</h3>
-          <p>Abre el <code>.exe</code> descargado. Si aparece el aviso de Windows SmartScreen,
-             haz clic en <strong>"Más información" → "Ejecutar de todas formas"</strong>.</p>
+          <p>Abre el <code>.exe</code>. Si aparece SmartScreen, haz clic en <strong>"Más información" → "Ejecutar de todas formas"</strong>.</p>
           {% endif %}
         </div>
       </div>
       <div class="step reveal">
-        <div class="step-n">PASO<br>03</div>
+        <div class="step-n">PASO<strong>03</strong></div>
         <div class="step-body">
           {% if client_os == 'linux' %}
           <h3>Sigue las instrucciones</h3>
           <p>El script instalará los archivos necesarios y creará un acceso directo en tu escritorio.</p>
           {% else %}
           <h3>Sigue el asistente</h3>
-          <p>El instalador copiará todos los archivos necesarios en la carpeta de tu elección
-             y creará un acceso directo en el escritorio.</p>
+          <p>El instalador copiará todos los archivos en la carpeta que elijas y creará un acceso en el escritorio.</p>
           {% endif %}
         </div>
       </div>
       <div class="step reveal">
-        <div class="step-n">PASO<br>04</div>
+        <div class="step-n">PASO<strong>04</strong></div>
         <div class="step-body">
           <h3>Requisitos del sistema</h3>
           <dl class="sysreq">
             <div class="req-item">
               <dt>Sistema Operativo</dt>
-              {% if client_os == 'linux' %}
-              <dd>Ubuntu 20.04+ / Debian 11+ (64-bit)</dd>
-              {% else %}
-              <dd>Windows 10 / 11 (64-bit)</dd>
-              {% endif %}
+              {% if client_os == 'linux' %}<dd>Ubuntu 20.04+ / Debian 11+ (64-bit)</dd>
+              {% else %}<dd>Windows 10 / 11 (64-bit)</dd>{% endif %}
             </div>
-            <div class="req-item">
-              <dt>Memoria RAM</dt>
-              <dd>4 GB mínimo</dd>
-            </div>
+            <div class="req-item"><dt>Memoria RAM</dt><dd>4 GB mínimo</dd></div>
             <div class="req-item">
               <dt>Tarjeta gráfica</dt>
-              {% if client_os == 'linux' %}
-              <dd>OpenGL 3.2+ / Vulkan compatible</dd>
-              {% else %}
-              <dd>DirectX 11 compatible</dd>
-              {% endif %}
+              {% if client_os == 'linux' %}<dd>OpenGL 3.2+ / Vulkan</dd>
+              {% else %}<dd>DirectX 11 compatible</dd>{% endif %}
             </div>
-            <div class="req-item">
-              <dt>Almacenamiento</dt>
-              <dd>~500 MB libres</dd>
-            </div>
+            <div class="req-item"><dt>Almacenamiento</dt><dd>~500 MB libres</dd></div>
           </dl>
         </div>
       </div>
@@ -895,180 +802,109 @@
   </div>
 </section>
 
-
-
-<!-- VIDEO -->
-<section id="video" style="position:relative;z-index:1;">
-  <div style="max-width:1080px;margin:0 auto;padding:5rem 5vw;">
-
-    <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:2.5rem;" class="reveal">
-      <span style="font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:#8C7F3B;">// 03</span>
-      <h2 style="font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#BFBB80;">Gameplay</h2>
-      <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(140,127,59,.4),transparent);"></div>
+<!-- ── VIDEO ──────────────────────────────────────────────────────────── -->
+<section id="video">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-tag">// 03</span>
+      <h2>Gameplay</h2>
     </div>
-
-    <div class="reveal" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;
-         border:1px solid rgba(140,127,59,.25);box-shadow:0 0 40px rgba(87,101,51,.2);">
+    <div class="video-embed reveal">
       <iframe
         src="https://www.youtube.com/embed/74Tk26kOG18?rel=0&modestbranding=1&color=white"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        title="Reconquest — Gameplay">
+        allowfullscreen title="Reconquest — Gameplay">
       </iframe>
     </div>
-
   </div>
 </section>
 
-<style>
-  /* Feature cards en modo día */
-  body.day-mode .feature {
-    background: rgba(180,175,140,.5) !important;
-    border-color: rgba(80,90,50,.25) !important;
-  }
-  body.day-mode .feature:hover {
-    background: rgba(160,155,120,.6) !important;
-    border-color: rgba(80,90,50,.5) !important;
-  }
-  body.day-mode .feature h3 { color: #1e2210 !important; }
-  body.day-mode .feature p  { color: #3a3e28 !important; }
-  body.day-mode .feature-num { color: #5a5530 !important; }
-  /* Requisitos en modo día */
-  body.day-mode .req-item {
-    background: rgba(180,175,140,.5) !important;
-    border-color: rgba(80,90,50,.25) !important;
-  }
-  body.day-mode .req-item dt { color: #5a5530 !important; }
-  body.day-mode .req-item dd { color: #1e2210 !important; }
-  /* Sección El Proyecto en modo día */
-  body.day-mode .about-wrap {
-    background: rgba(180,175,140,.4) !important;
-    border-color: rgba(80,90,50,.2) !important;
-  }
-  body.day-mode .about-label { color: #1e2210 !important; }
-  body.day-mode .about-label em { color: #4a4e2a !important; }
-  body.day-mode .about-body p { color: #3a3e28 !important; }
-  body.day-mode .about-body strong { color: #1e2210 !important; }
-  /* Textos hardcodeados en modo día */
-  body.day-mode [style*="color:#d4d09e"] { color: #1e2210 !important; }
-  body.day-mode [style*="color:#eeecd4"] { color: #1e2210 !important; }
-  body.day-mode [style*="color:#a09e7a"] { color: #3a3e28 !important; }
-  body.day-mode [style*="color:#6b6a4a"] { color: #5a5840 !important; }
-  body.day-mode [style*="color:#BFBB80"] { color: #3a3820 !important; }
-  body.day-mode [style*="color:#8C7F3B"] { color: #5a5530 !important; }
-  body.day-mode section, body.day-mode footer { background: #d4d0b8 !important; }
-  body.day-mode .hero { background: #d4d0b8 !important; }
-  body.day-mode .hero-bg {
-    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(140,135,90,.15) 0%, transparent 65%), #d4d0b8 !important;
-  }
-</style>
-
-<!-- REVIEWS -->
-<section id="resenas" style="position:relative;z-index:1;background:rgba(10,12,8,.5);border-top:1px solid rgba(87,101,51,.12);">
-  <div style="max-width:1080px;margin:0 auto;padding:5rem 5vw;">
-
-    <!-- Header row -->
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:3rem;" class="reveal">
+<!-- ── REVIEWS ────────────────────────────────────────────────────────── -->
+<section id="resenas">
+  <div class="section-inner">
+    <!-- Header -->
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.8rem;" class="reveal">
       <div>
-        <p style="font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:#8C7F3B;margin-bottom:.6rem;">// 04 &nbsp; Reseñas</p>
-        <h2 style="font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#BFBB80;">Lo que dice la comunidad</h2>
+        <div class="section-header" style="margin-bottom:.4rem;">
+          <span class="section-tag">// 04</span>
+          <h2>Lo que dice la comunidad</h2>
+        </div>
       </div>
       {% if avg_rating %}
-      <div style="text-align:right;">
-        <div style="font-family:'Oswald',sans-serif;font-size:3rem;font-weight:700;color:#BFBB80;line-height:1;">{{ avg_rating }}</div>
-        <div style="font-size:1.2rem;letter-spacing:.1em;color:#8C7F3B;">
-          {% for i in range(1,6) %}{% if i <= avg_rating|int %}★{% elif (avg_rating - avg_rating|int) >= 0.5 and i == avg_rating|int + 1 %}★{% else %}☆{% endif %}{% endfor %}
-        </div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.15em;color:#6b6a4a;margin-top:.2rem;">{{ reviews|length }} reseña{{ 's' if reviews|length != 1 else '' }}</div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div class="rating-big">{{ avg_rating }}</div>
+        <div class="rating-stars">{% for i in range(1,6) %}{% if i <= avg_rating|int %}★{% elif (avg_rating - avg_rating|int) >= 0.5 and i == avg_rating|int + 1 %}★{% else %}☆{% endif %}{% endfor %}</div>
+        <div class="rating-count">{{ reviews|length }} reseña{{ 's' if reviews|length != 1 else '' }}</div>
       </div>
       {% endif %}
     </div>
 
-    <!-- Reviews grid -->
+    <!-- Cards -->
     {% if reviews %}
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-bottom:3.5rem;">
+    <div class="reviews-grid">
       {% for r in reviews %}
-      <div class="reveal" style="background:rgba(26,29,15,.85);border:1px solid rgba(87,101,51,.18);padding:1.8rem;position:relative;transition:border-color .25s;">
-        <!-- Stars -->
-        <div style="font-size:1rem;color:#8C7F3B;letter-spacing:.1em;margin-bottom:.8rem;">
+      <div class="review-card reveal">
+        <div class="review-stars">
           {% for i in range(1,6) %}{% if i <= r.rating %}★{% else %}☆{% endif %}{% endfor %}
-          <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:#6b6a4a;margin-left:.5rem;">{{ r.rating }}/5</span>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:.64rem;color:var(--muted);margin-left:.4rem;">{{ r.rating }}/5</span>
         </div>
-        <!-- Body -->
-        <p style="font-size:.95rem;line-height:1.7;color:#a09e7a;font-weight:300;margin-bottom:1.2rem;">"{{ r.body }}"</p>
-        <!-- Meta -->
-        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(87,101,51,.12);padding-top:.8rem;">
-          <span style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:#8C7F3B;letter-spacing:.1em;">// {{ r.username }}</span>
-          <span style="font-family:'Share Tech Mono',monospace;font-size:.65rem;color:#6b6a4a;">{{ r.created_at[:10] }}</span>
+        <p class="review-body">"{{ r.body }}"</p>
+        <div class="review-meta">
+          <div class="review-author-wrap">
+            {% if r.avatar_url %}
+              <img class="review-avatar" src="{{ r.avatar_url }}" alt="{{ r.username }}">
+            {% else %}
+              <span class="review-avatar-ph">{{ r.username[0]|upper }}</span>
+            {% endif %}
+            <span class="review-author">// {{ r.username }}</span>
+          </div>
+          <span class="review-date">{{ r.created_at[:10] }}</span>
         </div>
       </div>
       {% endfor %}
     </div>
     {% else %}
-    <div class="reveal" style="border:1px solid rgba(87,101,51,.15);padding:2.5rem;text-align:center;margin-bottom:3rem;background:rgba(26,29,15,.5);">
-      <p style="font-family:'Share Tech Mono',monospace;font-size:.8rem;letter-spacing:.15em;color:#6b6a4a;">// Sin reseñas todavía. Sé el primero.</p>
+    <div class="reveal" style="border:1px solid rgba(87,101,51,.14);padding:2.5rem;text-align:center;margin-bottom:3rem;background:rgba(22,25,13,.5);">
+      <p style="font-family:'Share Tech Mono',monospace;font-size:.78rem;letter-spacing:.15em;color:var(--muted);">// Sin reseñas todavía. Sé el primero.</p>
     </div>
     {% endif %}
 
-    <!-- Write review form -->
-    <div class="reveal" style="max-width:640px;">
-      <p style="font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.2em;color:#8C7F3B;margin-bottom:1.2rem;">// Dejar una reseña</p>
+    <!-- Write review -->
+    <div class="review-form-wrap reveal">
+      <p style="font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1.4rem;">// Dejar una reseña</p>
 
       {% if not user %}
-      <div style="background:rgba(87,101,51,.1);border:1px solid rgba(87,101,51,.25);padding:1.2rem 1.5rem;
-                  font-family:'Share Tech Mono',monospace;font-size:.78rem;letter-spacing:.1em;color:#6b6a4a;line-height:1.8;">
-        Debes <a href="/login?next=/#resenas" style="color:#BFBB80;text-decoration:none;">iniciar sesión</a>
-        para dejar una reseña.
+      <div style="background:rgba(87,101,51,.08);border:1px solid rgba(87,101,51,.22);padding:1.2rem 1.5rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;letter-spacing:.1em;color:var(--muted);line-height:1.8;">
+        Debes <a href="/login?next=/#resenas" style="color:var(--sand);text-decoration:none;">iniciar sesión</a> para dejar una reseña.
       </div>
-
       {% elif user_reviewed %}
-      <div style="background:rgba(87,101,51,.12);border:1px solid rgba(87,101,51,.25);padding:1.2rem 1.5rem;
-                  font-family:'Share Tech Mono',monospace;font-size:.78rem;letter-spacing:.1em;color:#8C7F3B;line-height:1.8;">
+      <div style="background:rgba(87,101,51,.1);border:1px solid rgba(87,101,51,.22);padding:1.2rem 1.5rem;font-family:'Share Tech Mono',monospace;font-size:.78rem;letter-spacing:.1em;color:var(--gold);line-height:1.8;">
         ✓ Ya has enviado tu reseña. Será visible una vez aprobada.
       </div>
-
       {% else %}
       <form method="POST" action="/reviews/submit">
-        <!-- Star picker -->
-        <div style="margin-bottom:1.2rem;">
-          <label style="font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#8C7F3B;display:block;margin-bottom:.6rem;">Puntuación</label>
-          <div class="star-picker" style="display:flex;gap:.4rem;flex-direction:row-reverse;justify-content:flex-end;">
-            {% for i in [5,4,3,2,1] %}
-            <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}"
-                   style="display:none;" {% if i==5 %}required{% endif %}>
-            <label for="star{{ i }}"
-                   style="font-size:1.8rem;color:#3a3d28;cursor:crosshair;transition:color .15s;line-height:1;"
-                   onmouseover="highlightStars({{ i }})" onmouseout="resetStars()">★</label>
-            {% endfor %}
-          </div>
+        <label class="form-label">Puntuación</label>
+        <div class="star-picker">
+          {% for i in [5,4,3,2,1] %}
+          <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}" {% if i==5 %}required{% endif %}>
+          <label for="star{{ i }}">★</label>
+          {% endfor %}
         </div>
-        <!-- Text -->
-        <div style="margin-bottom:1.2rem;">
-          <label style="font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#8C7F3B;display:block;margin-bottom:.6rem;">Comentario <span style="color:#6b6a4a;font-size:.62rem;">(10–800 caracteres)</span></label>
-          <textarea name="body" rows="4" maxlength="800" placeholder="Escribe tu opinión sobre el juego..."
-                    style="width:100%;padding:.8rem 1rem;background:rgba(10,11,7,.8);border:1px solid rgba(140,127,59,.25);
-                           color:#d4d09e;font-family:'Rajdhani',sans-serif;font-size:.95rem;resize:vertical;
-                           outline:none;cursor:text;line-height:1.6;" required minlength="10"></textarea>
-          <div style="text-align:right;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:#6b6a4a;margin-top:.3rem;">
-            <span id="char-count">0</span>/800
-          </div>
+        <label class="form-label" for="rev-body">Comentario <span style="color:var(--muted);font-size:.62rem;">(10–800 caracteres)</span></label>
+        <textarea id="rev-body" name="body" rows="4" maxlength="800" minlength="10"
+                  placeholder="Escribe tu opinión sobre el juego..." class="review-textarea" required></textarea>
+        <div class="char-row">
+          <span></span>
+          <span class="char-count"><span id="char-count">0</span>/800</span>
         </div>
-        <button type="submit"
-                style="padding:.85rem 2.5rem;background:#576533;border:2px solid #8C7F3B;color:#BFBB80;
-                       font-family:'Oswald',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.12em;
-                       text-transform:uppercase;cursor:crosshair;transition:background .2s,color .2s;
-                       clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));">
-          Enviar Reseña
-        </button>
+        <button type="submit" class="btn-review">Enviar Reseña</button>
       </form>
       {% endif %}
     </div>
-
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
 <footer>
   <p>© 2025 · Reconquest · Trabajo de Fin de Grado · Todos los derechos reservados</p>
   <span class="version-tag">v{{ version }}</span>
@@ -1077,452 +913,279 @@
 <!-- TOAST -->
 <div id="dl-toast">⬇ Descarga iniciada — ¡Suerte, Comandante!</div>
 
-<script>
-  // Scroll reveal
-  const els = document.querySelectorAll('.reveal');
-  const io  = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('in'), i * 70);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  els.forEach(el => io.observe(el));
-
-
-  // Star picker
-  const starLabels = document.querySelectorAll('.star-picker label');
-  let selectedRating = 0;
-  function highlightStars(n) {
-    starLabels.forEach((lbl, i) => {
-      // labels are in reverse order (5,4,3,2,1)
-      const val = 5 - i;
-      lbl.style.color = val <= n ? '#8C7F3B' : '#3a3d28';
-    });
-  }
-  function resetStars() {
-    starLabels.forEach((lbl, i) => {
-      const val = 5 - i;
-      lbl.style.color = val <= selectedRating ? '#BFBB80' : '#3a3d28';
-    });
-  }
-  document.querySelectorAll('.star-picker input').forEach(inp => {
-    inp.addEventListener('change', () => {
-      selectedRating = parseInt(inp.value);
-      resetStars();
-    });
-  });
-
-  // Char counter
-  const textarea = document.querySelector('textarea[name="body"]');
-  const counter  = document.getElementById('char-count');
-  if (textarea && counter) {
-    textarea.addEventListener('input', () => { counter.textContent = textarea.value.length; });
-  }
-
-  // Download toast
-  const btn = document.getElementById('dl-btn');
-  const toast = document.getElementById('dl-toast');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 4000);
-    });
-  }
-</script>
-
-
 <!-- ── CHATBOT ─────────────────────────────────────────────────────────── -->
 <style>
   #chat-toggle {
     position:fixed; bottom:1.8rem; right:1.8rem; z-index:1500;
-    width:56px; height:56px;
+    width:52px; height:52px;
     background:#576533; border:2px solid #8C7F3B;
     cursor:crosshair; display:flex; align-items:center; justify-content:center;
-    transition:background .2s, transform .2s;
+    transition:background .2s, transform .2s, box-shadow .2s;
     clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
-    box-shadow:0 4px 24px rgba(87,101,51,.35);
+    box-shadow:0 4px 20px rgba(87,101,51,.35);
   }
-  #chat-toggle:hover { background:#8C7F3B; transform:scale(1.07); }
-  #chat-toggle svg { width:24px; height:24px; stroke:#BFBB80; transition:stroke .2s; }
+  #chat-toggle:hover { background:#8C7F3B; transform:scale(1.06); box-shadow:0 6px 28px rgba(140,127,59,.45); }
+  #chat-toggle svg { width:22px; height:22px; stroke:#BFBB80; transition:stroke .2s; }
   #chat-toggle:hover svg { stroke:#0a0b07; }
-  #chat-badge {
-    position:absolute; top:-4px; right:-4px;
-    width:16px; height:16px; border-radius:50%;
-    background:#8b1a1a; border:1px solid #0a0b07;
-    font-family:'Share Tech Mono',monospace; font-size:.55rem;
-    color:#fff; align-items:center; justify-content:center;
-    display:none;
-  }
+
   #chat-window {
-    position:fixed; bottom:5.5rem; right:1.8rem; z-index:1499;
-    width:340px; max-height:500px;
-    background:rgba(17,19,9,.98);
-    border:1px solid rgba(140,127,59,.3);
+    position:fixed; bottom:5.2rem; right:1.8rem; z-index:1499;
+    width:340px; max-height:480px;
+    background:rgba(14,16,9,.98);
+    border:1px solid rgba(140,127,59,.28);
     display:flex; flex-direction:column;
     clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
-    box-shadow:0 8px 40px rgba(0,0,0,.6);
-    transform:translateY(16px) scale(.97); opacity:0; pointer-events:none;
-    transition:transform .25s ease, opacity .25s ease;
+    box-shadow:0 10px 44px rgba(0,0,0,.65);
+    transform:translateY(14px) scale(.97); opacity:0; pointer-events:none;
+    transition:transform .25s cubic-bezier(.22,1,.36,1), opacity .22s ease;
   }
   #chat-window.open { transform:none; opacity:1; pointer-events:all; }
+
   .chat-header {
-    display:flex; align-items:center; gap:.8rem;
-    padding:.9rem 1.1rem;
-    border-bottom:1px solid rgba(140,127,59,.18);
-    background:rgba(87,101,51,.15); flex-shrink:0;
+    display:flex; align-items:center; gap:.75rem;
+    padding:.85rem 1.1rem; border-bottom:1px solid rgba(140,127,59,.16);
+    background:rgba(87,101,51,.12); flex-shrink:0;
   }
-  .chat-header img { width:28px; height:28px; image-rendering:pixelated; }
+  .chat-header img { width:26px; height:26px; image-rendering:pixelated; }
   .chat-header-text { flex:1; }
-  .chat-header-text strong {
-    display:block; font-family:'Oswald',sans-serif; font-size:.95rem;
-    font-weight:500; letter-spacing:.1em; color:#BFBB80;
-  }
-  .chat-header-text span {
-    font-family:'Share Tech Mono',monospace; font-size:.62rem;
-    letter-spacing:.1em; color:#6b6a4a;
-  }
-  .chat-close {
-    background:none; border:none; cursor:crosshair;
-    color:#6b6a4a; font-size:1.1rem; transition:color .2s; padding:.2rem;
-  }
+  .chat-header-text strong { display:block; font-family:'Oswald',sans-serif; font-size:.92rem; font-weight:500; letter-spacing:.1em; color:#BFBB80; }
+  .chat-header-text span   { font-family:'Share Tech Mono',monospace; font-size:.6rem; letter-spacing:.1em; color:#6b6a4a; }
+  .chat-close { background:none; border:none; cursor:crosshair; color:#6b6a4a; font-size:1rem; transition:color .2s; padding:.2rem; line-height:1; }
   .chat-close:hover { color:#BFBB80; }
+
   #chat-messages {
-    flex:1; overflow-y:auto; padding:.9rem 1rem;
-    display:flex; flex-direction:column; gap:.7rem;
-    scrollbar-width:thin; scrollbar-color:rgba(140,127,59,.2) transparent;
+    flex:1; overflow-y:auto; padding:.85rem 1rem;
+    display:flex; flex-direction:column; gap:.65rem;
+    scrollbar-width:thin; scrollbar-color:rgba(140,127,59,.18) transparent;
   }
   .cmsg {
-    max-width:85%; padding:.65rem .9rem;
-    font-size:.88rem; line-height:1.55; font-family:'Rajdhani',sans-serif;
+    max-width:88%; padding:.6rem .9rem;
+    font-size:.87rem; line-height:1.55; font-family:'Rajdhani',sans-serif;
     animation:msgIn .2s ease;
   }
-  .cmsg.bot {
-    background:rgba(87,101,51,.18); border:1px solid rgba(87,101,51,.25);
-    color:#d4d09e; align-self:flex-start;
-    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
-  }
-  .cmsg.user {
-    background:rgba(140,127,59,.2); border:1px solid rgba(140,127,59,.3);
-    color:#BFBB80; align-self:flex-end;
-    clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px);
-  }
+  .cmsg.bot  { background:rgba(87,101,51,.16); border:1px solid rgba(87,101,51,.22); color:#d4d09e; align-self:flex-start; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%); }
+  .cmsg.user { background:rgba(140,127,59,.18); border:1px solid rgba(140,127,59,.28); color:#BFBB80; align-self:flex-end; clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px); }
   .cmsg.bot strong { color:#BFBB80; }
   .cmsg.bot a { color:#BFBB80; }
-  .chat-qr {
-    display:flex; flex-wrap:wrap; gap:.4rem;
-    padding:.5rem 1rem .7rem; flex-shrink:0;
+
+  /* Typing indicator */
+  .cmsg.typing { display:flex; align-items:center; gap:4px; padding:.7rem .9rem; }
+  .cmsg.typing span {
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:#8C7F3B; animation:typingDot 1.2s ease-in-out infinite;
   }
+  .cmsg.typing span:nth-child(2) { animation-delay:.2s; }
+  .cmsg.typing span:nth-child(3) { animation-delay:.4s; }
+  @keyframes typingDot { 0%,60%,100% { transform:translateY(0); opacity:.4; } 30% { transform:translateY(-5px); opacity:1; } }
+
+  .chat-qr { display:flex; flex-wrap:wrap; gap:.35rem; padding:.45rem 1rem .6rem; flex-shrink:0; }
   .chat-qr-btn {
-    padding:.35rem .75rem;
-    font-family:'Share Tech Mono',monospace; font-size:.65rem;
-    letter-spacing:.08em; text-transform:uppercase;
-    color:#8C7F3B; background:none;
-    border:1px solid rgba(140,127,59,.3);
+    padding:.3rem .7rem;
+    font-family:'Share Tech Mono',monospace; font-size:.63rem; letter-spacing:.08em; text-transform:uppercase;
+    color:#8C7F3B; background:none; border:1px solid rgba(140,127,59,.28);
     cursor:crosshair; transition:background .15s, color .15s;
   }
-  .chat-qr-btn:hover { background:rgba(140,127,59,.12); color:#BFBB80; }
+  .chat-qr-btn:hover { background:rgba(140,127,59,.1); color:#BFBB80; }
+
   .chat-input-row {
-    display:flex; gap:.5rem; padding:.8rem 1rem;
-    border-top:1px solid rgba(140,127,59,.15); flex-shrink:0;
+    display:flex; gap:.4rem; padding:.75rem 1rem;
+    border-top:1px solid rgba(140,127,59,.13); flex-shrink:0;
   }
   #chat-input {
-    flex:1; padding:.55rem .8rem;
-    background:rgba(10,11,7,.8); border:1px solid rgba(140,127,59,.22);
-    color:#eeecd4; font-family:'Rajdhani',sans-serif; font-size:.9rem;
+    flex:1; padding:.5rem .8rem;
+    background:rgba(10,11,7,.85); border:1px solid rgba(140,127,59,.2);
+    color:#eeecd4; font-family:'Rajdhani',sans-serif; font-size:.88rem;
     outline:none; cursor:text; transition:border-color .2s;
   }
   #chat-input:focus { border-color:#8C7F3B; }
-  #chat-input::placeholder { color:#6b6a4a; font-size:.82rem; }
+  #chat-input::placeholder { color:#6b6a4a; font-size:.8rem; }
   #chat-send {
-    padding:.5rem .9rem;
-    background:#576533; border:1px solid #8C7F3B;
-    color:#BFBB80; font-family:'Oswald',sans-serif;
-    font-size:.85rem; font-weight:700; letter-spacing:.08em;
-    cursor:crosshair; transition:background .15s;
+    padding:.5rem .9rem; background:#576533; border:1px solid #8C7F3B;
+    color:#BFBB80; font-family:'Oswald',sans-serif; font-size:.85rem; font-weight:700;
+    letter-spacing:.08em; cursor:crosshair; transition:background .15s, color .15s;
   }
   #chat-send:hover { background:#8C7F3B; color:#0a0b07; }
-  @keyframes msgIn {
-    from { opacity:0; transform:translateY(6px); }
-    to   { opacity:1; transform:none; }
-  }
-  @media(max-width:400px) {
-    #chat-window { width:calc(100vw - 2rem); right:1rem; }
-  }
 
-  /* Modo día - chatbot */
-  body.day-mode #chat-window  { background: #c4c0a8 !important; }
-  body.day-mode .chat-header  { background: #b4b098 !important; }
-  body.day-mode #chat-messages { background: #c4c0a8 !important; }
-  body.day-mode .cmsg.bot  { background: #b4b098 !important; color: #1e2210 !important; }
-  body.day-mode .cmsg.user { background: #a4a088 !important; color: #1e2210 !important; }
-  body.day-mode #chat-input { background: #b4b098 !important; color: #1e2210 !important; }
-  body.day-mode #chat-send  { background: #6a7040 !important; color: #d4d0b8 !important; }
-  body.day-mode .chat-qr-btn { background: rgba(100,105,65,.2) !important; color: #3a3e28 !important; }
-  body.day-mode #theme-toggle { color: #2a2e18 !important; border-color: rgba(80,90,50,.4) !important; }
+  @keyframes msgIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
+  @media(max-width:400px) { #chat-window { width:calc(100vw - 2rem); right:1rem; } }
 </style>
 
-<button id="chat-toggle" onclick="toggleChat()" title="Soporte">
-  <div id="chat-badge">!</div>
-  <svg id="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<button id="chat-toggle" onclick="toggleChat()" title="Asistente">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-  <svg id="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
   </svg>
 </button>
 
 <div id="chat-window">
   <div class="chat-header">
-    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bot">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
     <div class="chat-header-text">
-      <strong>Soporte Reconquest</strong>
-      <span>// Asistente automático</span>
+      <strong>Operador RECON</strong>
+      <span>// Asistente del juego</span>
     </div>
     <button class="chat-close" onclick="toggleChat()">✕</button>
   </div>
-  <div id="chat-messages"></div>
-  <div id="chat-qr" class="chat-qr"></div>
+  <div id="chat-messages">
+    <div class="cmsg bot">¡Bienvenido, Comandante. ¿En qué puedo ayudarte?</div>
+  </div>
+  <div class="chat-qr" id="chat-qr">
+    <button class="chat-qr-btn" onclick="sendQuick('¿Cómo instalo el juego?')">Instalación</button>
+    <button class="chat-qr-btn" onclick="sendQuick('¿Qué requisitos tiene?')">Requisitos</button>
+    <button class="chat-qr-btn" onclick="sendQuick('¿De qué va el juego?')">Argumento</button>
+    <button class="chat-qr-btn" onclick="sendQuick('¿Cómo se juega?')">Mecánicas</button>
+  </div>
   <div class="chat-input-row">
-    <input id="chat-input" type="text" placeholder="Escribe tu pregunta..." maxlength="200"
-           onkeydown="if(event.key==='Enter') chatSend()">
-    <button id="chat-send" onclick="chatSend()">↑</button>
+    <input id="chat-input" type="text" placeholder="Escribe tu pregunta..." autocomplete="off">
+    <button id="chat-send" onclick="sendChat()">▶</button>
   </div>
 </div>
 
 <script>
-const CHAT_QUICK = ['¿Es gratis?','¿Cómo descargo?','Requisitos','Olvidé contraseña','Reportar bug'];
+  /* ── SCROLL PROGRESS + NAV ── */
+  const progressBar = document.getElementById('progress-bar');
+  const mainNav     = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = (total > 0 ? window.scrollY / total * 100 : 0) + '%';
+    mainNav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
 
-const BUG_OPTIONS = [
-  'El juego se cierra inesperadamente',
-  'Problema con gráficos o pantalla',
-  'Las tropas no responden',
-  'Error al iniciar el juego',
-  'Problema con el instalador',
-  'Otro problema',
-];
-
-const CHAT_ANSWERS = {
-  '¿Es gratis?': '¡Sí! Reconquest es completamente <strong>gratuito</strong>. Solo necesitas registrarte en la web para poder descargarlo.',
-  '¿Cómo descargo?': 'Para descargar el juego:<br>1. Regístrate o inicia sesión<br>2. Pulsa el botón <strong>Descargar</strong> en la página principal<br>3. Si Windows SmartScreen alerta, es un falso positivo — haz clic en <em>"Más información → Ejecutar de todas formas"</em>',
-  'Requisitos': 'Requisitos mínimos:<br>• <strong>SO:</strong> Windows 10/11 (64-bit)<br>• <strong>RAM:</strong> 4 GB<br>• <strong>GPU:</strong> DirectX 11<br>• <strong>Disco:</strong> ~500 MB libres',
-  'Olvidé contraseña': 'Para recuperar tu contraseña ve a <a href="/forgot" style="color:#BFBB80;">/forgot</a> e introduce tu email. Te enviaremos un enlace de recuperación.',
-};
-
-let chatOpen = false;
-let bugMode = false;
-const userLoggedIn = {{ 'true' if user else 'false' }};
-
-window.addEventListener('DOMContentLoaded', () => {
-  chatAddBot('¡Hola, Comandante! 👋 Soy el asistente de <strong>Reconquest</strong>. ¿En qué puedo ayudarte?');
-  chatRenderQR(CHAT_QUICK);
-  setTimeout(() => {
-    if (!chatOpen) document.getElementById('chat-badge').style.display = 'flex';
-  }, 3000);
-});
-
-function toggleChat() {
-  if (!userLoggedIn) {
-    window.location.href = '/login?next=/';
-    return;
+  /* ── MOBILE NAV ── */
+  const burger    = document.getElementById('nav-burger');
+  const mobileNav = document.getElementById('nav-mobile');
+  if (burger) {
+    burger.addEventListener('click', () => { burger.classList.toggle('open'); mobileNav.classList.toggle('open'); });
+    document.addEventListener('click', e => {
+      if (!mainNav.contains(e.target)) { burger.classList.remove('open'); mobileNav.classList.remove('open'); }
+    });
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      burger.classList.remove('open'); mobileNav.classList.remove('open');
+    }));
   }
-  chatOpen = !chatOpen;
-  document.getElementById('chat-window').classList.toggle('open', chatOpen);
-  document.getElementById('chat-icon-open').style.display  = chatOpen ? 'none'  : 'block';
-  document.getElementById('chat-icon-close').style.display = chatOpen ? 'block' : 'none';
-  document.getElementById('chat-badge').style.display = 'none';
-  if (chatOpen) document.getElementById('chat-input').focus();
-}
 
-function chatAddBot(html) {
-  const d = document.createElement('div');
-  d.className = 'cmsg bot'; d.innerHTML = html;
-  document.getElementById('chat-messages').appendChild(d);
-  chatScroll();
-}
-function chatAddUser(text) {
-  const d = document.createElement('div');
-  d.className = 'cmsg user'; d.textContent = text;
-  document.getElementById('chat-messages').appendChild(d);
-  chatScroll();
-}
-function chatScroll() {
-  const el = document.getElementById('chat-messages');
-  el.scrollTop = el.scrollHeight;
-}
-function chatRenderQR(list) {
-  const w = document.getElementById('chat-qr');
-  w.innerHTML = '';
-  list.forEach(label => {
-    const b = document.createElement('button');
-    b.className = 'chat-qr-btn'; b.textContent = label;
-    b.onclick = () => chatHandle(label);
-    w.appendChild(b);
-  });
-}
-function chatSend() {
-  const inp = document.getElementById('chat-input');
-  const txt = inp.value.trim();
-  if (!txt) return;
-  inp.value = '';
-  if (bugMode) {
-    submitBug(txt);
-  } else {
-    chatHandle(txt);
-  }
-}
-// ── TEMA ──────────────────────────────────────────────────────────
-(function() {
-  const saved = localStorage.getItem('theme');
-  if (saved === 'day') {
-    document.body.classList.add('day-mode');
+  /* ── THEME ── */
+  (function(){
+    const saved = localStorage.getItem('theme');
+    if (saved === 'day') {
+      document.body.classList.add('day-mode');
+      const btn = document.getElementById('theme-toggle');
+      if (btn) btn.textContent = '☽ Noche';
+    }
+  })();
+  function toggleTheme() {
     const btn = document.getElementById('theme-toggle');
-    if (btn) btn.textContent = '🌙 Noche';
-  }
-})();
-
-function toggleTheme() {
-  const btn = document.getElementById('theme-toggle');
-  if (document.body.classList.toggle('day-mode')) {
-    localStorage.setItem('theme', 'day');
-    btn.textContent = '🌙 Noche';
-  } else {
-    localStorage.setItem('theme', 'night');
-    btn.textContent = '☀️ Día';
-  }
-}
-
-let chatHistory = [];
-
-async function chatHandle(text) {
-  if (text === 'Reportar bug') {
-    document.getElementById('chat-qr').innerHTML = '';
-    chatAddBot('¿Cuál es el problema? Selecciona una opción:');
-    chatRenderQR(BUG_OPTIONS);
-    return;
-  }
-
-  if (BUG_OPTIONS.includes(text)) {
-    if (text === 'Otro problema') {
-      bugMode = true;
-      document.getElementById('chat-qr').innerHTML = '';
-      chatAddBot('Descríbenos el problema con tus propias palabras:');
-      document.getElementById('chat-input').placeholder = 'Describe el problema...';
-      document.getElementById('chat-input').focus();
+    if (document.body.classList.toggle('day-mode')) {
+      localStorage.setItem('theme', 'day'); if (btn) btn.textContent = '☽ Noche';
     } else {
-      await chatHandleBug(text);
+      localStorage.setItem('theme', 'night'); if (btn) btn.textContent = '☀ Día';
     }
-    return;
   }
 
-  bugMode = false;
-  chatAddUser(text);
-  document.getElementById('chat-qr').innerHTML = '';
-  document.getElementById('chat-input').disabled = true;
-  document.getElementById('chat-send').disabled = true;
-
-  chatHistory.push({ role: 'user', content: text });
-
-  // Mostrar indicador de escritura
-  const typing = document.createElement('div');
-  typing.className = 'cmsg bot';
-  typing.id = 'chat-typing';
-  typing.innerHTML = '<span style="letter-spacing:.2em;color:#6b6a4a;">···</span>';
-  document.getElementById('chat-messages').appendChild(typing);
-  chatScroll();
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: chatHistory })
+  /* ── SCROLL REVEAL ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 65);
+        io.unobserve(e.target);
+      }
     });
-    const data = await res.json();
-    typing.remove();
-    const reply = data.reply || data.error || 'Error al conectar con el asistente.';
-    chatAddBot(reply);
-    chatHistory.push({ role: 'assistant', content: reply });
-  } catch(e) {
-    typing.remove();
-    chatAddBot('Error de conexión. Inténtalo más tarde.');
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── STAR PICKER ── */
+  let selectedRating = 0;
+  document.querySelectorAll('.star-picker input').forEach(inp => {
+    inp.addEventListener('change', () => {
+      selectedRating = parseInt(inp.value);
+      document.querySelectorAll('.star-picker label').forEach((lbl, i) => {
+        lbl.style.color = (5 - i) <= selectedRating ? '#BFBB80' : '';
+      });
+    });
+  });
+
+  /* ── CHAR COUNTER ── */
+  const ta = document.getElementById('rev-body');
+  const cc = document.getElementById('char-count');
+  if (ta && cc) ta.addEventListener('input', () => { cc.textContent = ta.value.length; });
+
+  /* ── DOWNLOAD TOAST ── */
+  const dlBtn   = document.getElementById('dl-btn');
+  const dlToast = document.getElementById('dl-toast');
+  if (dlBtn && dlToast) {
+    dlBtn.addEventListener('click', () => {
+      dlToast.style.display = 'block';
+      setTimeout(() => { dlToast.style.display = 'none'; }, 4000);
+    });
   }
 
-  document.getElementById('chat-input').disabled = false;
-  document.getElementById('chat-send').disabled = false;
-  document.getElementById('chat-input').focus();
-  chatRenderQR(CHAT_QUICK);
-}
-async function chatHandleBug(bugType) {
-  chatAddUser(bugType);
-  document.getElementById('chat-qr').innerHTML = '';
-  document.getElementById('chat-input').disabled = true;
-  document.getElementById('chat-send').disabled = true;
-
-  const typing = document.createElement('div');
-  typing.className = 'cmsg bot';
-  typing.innerHTML = '<span style="letter-spacing:.2em;color:#6b6a4a;">···</span>';
-  document.getElementById('chat-messages').appendChild(typing);
-  chatScroll();
-
-  const bugMessages = [
-    { role: 'user', content: `El jugador tiene el siguiente problema con el juego Reconquest (RTS para Windows/Linux 64-bit hecho con Unity 6): "${bugType}". Dame consejos concretos y breves para solucionarlo. Responde en español, de forma concisa y amigable, sin mostrar razonamiento interno.` }
-  ];
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: bugMessages })
-    });
-    const data = await res.json();
-    typing.remove();
-    const reply = data.reply || data.error || 'No se pudo obtener ayuda en este momento.';
-    chatAddBot(reply);
-    await fetch('/api/bug', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ description: bugType })
-    });
-  } catch(e) {
-    typing.remove();
-    chatAddBot('Error de conexión. Inténtalo más tarde.');
+  /* ── CHATBOT ── */
+  let chatOpen = false;
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-window').classList.toggle('open', chatOpen);
+    if (chatOpen) document.getElementById('chat-input').focus();
   }
 
-  document.getElementById('chat-input').disabled = false;
-  document.getElementById('chat-send').disabled = false;
-  document.getElementById('chat-input').focus();
-  chatRenderQR(CHAT_QUICK);
-}
+  function addMsg(text, who) {
+    const box = document.getElementById('chat-messages');
+    const el  = document.createElement('div');
+    el.className = 'cmsg ' + who;
+    el.innerHTML = text;
+    box.appendChild(el);
+    box.scrollTop = box.scrollHeight;
+    return el;
+  }
 
-async function submitBug(description) {
-  bugMode = false;
-  document.getElementById('chat-input').placeholder = 'Escribe tu pregunta...';
-  document.getElementById('chat-input').disabled = true;
-  document.getElementById('chat-send').disabled = true;
+  function showTyping() {
+    const box = document.getElementById('chat-messages');
+    const el  = document.createElement('div');
+    el.className = 'cmsg bot typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    box.appendChild(el);
+    box.scrollTop = box.scrollHeight;
+    return el;
+  }
 
-  try {
-    const res = await fetch('/api/bug', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ description })
-    });
-    const data = await res.json();
-    if (data.ok) {
-      chatAddBot('✅ Bug reportado correctamente. ¡Gracias, Comandante! Lo revisaremos pronto.');
-    } else {
-      chatAddBot('Hubo un problema al enviar el reporte. Inténtalo de nuevo más tarde.');
+  const chatHistory = [];
+
+  async function sendChat() {
+    const input = document.getElementById('chat-input');
+    const msg   = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    document.getElementById('chat-qr').style.display = 'none';
+    addMsg(msg, 'user');
+    chatHistory.push({ role: 'user', content: msg });
+
+    const typing = showTyping();
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory.slice(-10) })
+      });
+      const data = await res.json();
+      typing.remove();
+      if (res.ok && data.reply) {
+        chatHistory.push({ role: 'assistant', content: data.reply });
+        addMsg(data.reply, 'bot');
+      } else {
+        addMsg('// ' + (data.error || 'El asistente no está disponible ahora mismo.'), 'bot');
+      }
+    } catch(e) {
+      typing.remove();
+      addMsg('// Error de comunicación. Inténtalo de nuevo.', 'bot');
     }
-  } catch(e) {
-    chatAddBot('Error de conexión al enviar el reporte.');
   }
 
-  document.getElementById('chat-input').disabled = false;
-  document.getElementById('chat-send').disabled = false;
-  document.getElementById('chat-input').focus();
-  chatRenderQR(CHAT_QUICK);
-}
+  function sendQuick(q) {
+    document.getElementById('chat-input').value = q;
+    sendChat();
+  }
+
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendChat();
+  });
 </script>
-
 </body>
 </html>

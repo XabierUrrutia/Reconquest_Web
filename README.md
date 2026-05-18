@@ -6,17 +6,30 @@ Aplicación Flask para alojar la página oficial de descarga del juego Reconques
 
 ```
 reconquest/
-├── app.py                         ← Servidor Flask (lógica backend)
+├── run.py                         ← Entry point local (python run.py)
+├── app/                           ← Paquete Flask
+│   ├── __init__.py                ← create_app() + app = create_app()
+│   ├── config.py                  ← Variables de entorno y constantes
+│   ├── db.py                      ← Conexión PostgreSQL y init_db
+│   ├── decorators.py              ← login_required / admin_required
+│   ├── utils.py                   ← Helpers (hash, detección SO…)
+│   ├── email_utils.py             ← Envío SMTP
+│   ├── ai.py                      ← Cliente OpenRouter
+│   └── blueprints/
+│       ├── main.py                ← /, /download, /api/version
+│       ├── auth.py                ← /register /login /logout /forgot /reset
+│       ├── admin.py               ← /admin/*, /api/stats
+│       ├── reviews.py             ← /reviews/*, /admin/reviews/*
+│       ├── profile.py             ← /profile, /profile/edit
+│       ├── bugs.py                ← /api/bug, /admin/bug/*
+│       └── chat.py                ← /api/chat, /api/free_models
 ├── requirements.txt               ← Dependencias Python
-├── templates/
-│   └── index.html                 ← Página web principal
+├── templates/                     ← Jinja2
 ├── static/
-│   ├── img/
-│   │   └── logo.png               ← Logo del juego
+│   ├── img/logo.png
 │   └── installer/
 │       └── Reconquest_Setup_v1.0.0.exe   ← ⚠ COLOCA AQUÍ TU INSTALADOR
 └── data/
-    └── stats.json                 ← Contador de descargas (se crea solo)
 ```
 
 ## Instalación local
@@ -29,7 +42,7 @@ pip install -r requirements.txt
 #    Copia tu .exe en:  static/installer/Reconquest_Setup_v1.0.0.exe
 
 # 3. Arrancar el servidor
-python app.py
+python run.py
 #    → http://localhost:5000
 ```
 
@@ -49,7 +62,7 @@ python app.py
 2. Crea una cuenta en https://render.com
 3. "New Web Service" → conecta tu repo
 4. Build command: `pip install -r requirements.txt`
-5. Start command: `gunicorn app:app`
+5. Start command: `gunicorn app:app`  ← el paquete `app/` expone `app = create_app()` en su `__init__.py`
 6. Listo. Render te da un dominio `.onrender.com` o puedes conectar el tuyo
 
 ### Opción B — VPS propio (Hetzner, DigitalOcean, etc.)
@@ -72,7 +85,7 @@ gunicorn --bind 0.0.0.0:8000 app:app &
 
 ## Añadir nueva versión del instalador
 
-1. Cambia `GAME_VERSION` en `app.py`
-2. Cambia `INSTALLER_NAME` en `app.py`
+1. Cambia `GAME_VERSION` en `app/config.py`
+2. Cambia `INSTALLER_WIN` / `INSTALLER_LNX` en `app/config.py`
 3. Coloca el nuevo `.exe` en `static/installer/`
 4. Reinicia el servidor

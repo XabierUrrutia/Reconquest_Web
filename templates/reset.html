@@ -7,36 +7,69 @@
     <div class="auth-logo">
       <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Reconquest">
     </div>
-    <h1 class="auth-title">Nueva clave</h1>
-    <p class="auth-sub">// Establece una nueva contraseña</p>
+    <h1 class="auth-title">Nueva contraseña</h1>
+    <p class="auth-sub">// Elige una nueva clave de acceso</p>
 
-    {% if invalid %}
-    <div class="form-error">
-      ⚠ Este enlace no es válido o ha expirado.<br>
-      <a href="{{ url_for('forgot') }}" style="color:var(--sand);">Solicitar uno nuevo</a>
-    </div>
-
-    {% else %}
     {% if error %}
     <div class="form-error">⚠ {{ error }}</div>
     {% endif %}
 
+    {% if not invalid %}
     <form method="POST">
       <div class="form-group">
-        <label>Nueva contraseña <span style="color:var(--muted);font-size:.65rem">(mínimo 8 caracteres)</span></label>
-        <input type="password" name="password" placeholder="••••••••" required minlength="8" autofocus>
+        <label for="password">Nueva contraseña <span style="color:var(--muted);font-size:.62rem;">(mín. 8 caracteres)</span></label>
+        <input type="password" id="password" name="password"
+               placeholder="••••••••" required minlength="8" autofocus>
+        <div style="margin-top:.4rem;height:2px;background:rgba(87,101,51,.15);overflow:hidden;">
+          <div id="pw-fill" style="height:100%;width:0;transition:width .3s,background .3s;"></div>
+        </div>
       </div>
       <div class="form-group">
-        <label>Confirmar contraseña</label>
-        <input type="password" name="confirm" placeholder="••••••••" required>
+        <label for="confirm">Confirmar contraseña</label>
+        <input type="password" id="confirm" name="confirm"
+               placeholder="••••••••" required>
+        <p id="pw-match" style="font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.1em;margin-top:.25rem;min-height:.9rem;"></p>
       </div>
-      <button type="submit" class="btn-submit">Guardar Contraseña</button>
+      <button type="submit" class="btn-submit">Guardar contraseña</button>
     </form>
+    {% else %}
+    <div style="background:rgba(139,26,26,.12);border:1px solid rgba(139,26,26,.35);
+                padding:1.2rem 1.4rem;margin-bottom:1.5rem;
+                font-family:'Share Tech Mono',monospace;font-size:.76rem;
+                letter-spacing:.08em;color:#e8b0b0;line-height:1.8;">
+      ⚠ Enlace inválido o expirado.<br>
+      <span style="color:var(--muted);">Solicita uno nuevo desde la página de recuperación.</span>
+    </div>
     {% endif %}
 
     <div class="auth-links">
-      <a href="{{ url_for('login') }}">← Volver al login</a>
+      <a href="{{ url_for('auth.login') }}">← Volver al login</a>
     </div>
   </div>
 </div>
+
+<script>
+  const pwInput = document.getElementById('password');
+  const pwFill  = document.getElementById('pw-fill');
+  const confirm = document.getElementById('confirm');
+  const match   = document.getElementById('pw-match');
+  const colors  = ['#8b2020','#8b6020','#8C7F3B','#7ab87a'];
+
+  if (pwInput) {
+    pwInput.addEventListener('input', () => {
+      const v = pwInput.value; let s = 0;
+      if (v.length >= 8) s++; if (/[A-Z]/.test(v)) s++; if (/[0-9]/.test(v)) s++; if (/[^A-Za-z0-9]/.test(v)) s++;
+      pwFill.style.width = (v.length === 0 ? 0 : Math.max(1,s)*25) + '%';
+      pwFill.style.background = colors[s-1] || 'transparent';
+    });
+  }
+  if (confirm) {
+    confirm.addEventListener('input', () => {
+      if (!confirm.value) { match.textContent=''; return; }
+      const ok = confirm.value === pwInput.value;
+      match.textContent = ok ? '// Coincide' : '// No coincide';
+      match.style.color = ok ? '#7ab87a' : '#e8b0b0';
+    });
+  }
+</script>
 {% endblock %}
