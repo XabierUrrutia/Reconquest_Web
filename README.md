@@ -1,91 +1,175 @@
-# Reconquest — Web App de Descarga
+# Reconquest — Web App Oficial
 
-Aplicación Flask para alojar la página oficial de descarga del juego Reconquest.
+Página web oficial del videojuego **Reconquest**, un RTS de un jugador ambientado en una ucronía histórica de Portugal en 1974. Desarrollado como Trabajo de Fin de Grado con Unity 6 y C#.
+
+Esta aplicación Flask gestiona el registro de usuarios, la descarga del instalador, las reseñas, el soporte y el panel de administración.
+
+---
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Backend | Python 3 · Flask · Gunicorn |
+| Base de datos | PostgreSQL (Neon) |
+| Autenticación | Sesiones Flask · bcrypt |
+| Seguridad | Flask-WTF (CSRF) · Flask-Limiter |
+| IA / Moderación | OpenRouter API |
+| Frontend | HTML · CSS custom · Jinja2 (sin frameworks CSS externos) |
+| Despliegue | Render.com |
+
+---
+
+## Características
+
+- Página de presentación del juego con descarga directa (Windows / Linux)
+- Registro e inicio de sesión con hashing bcrypt y migración automática de contraseñas antiguas
+- Recuperación de contraseña por email (SMTP)
+- Perfil de usuario editable (email, contraseña, avatar)
+- Reseñas con moderación automática por IA (OpenRouter) y lista de palabras ofensivas
+- Chatbot de soporte integrado
+- Panel de administración: gestión de usuarios, reseñas, reportes de bugs y gráfico de descargas
+- API de reportes de bugs para el cliente del juego
+- Protección CSRF en todos los formularios y rate limiting en endpoints de API
+- Tema día/noche persistente
+
+---
 
 ## Estructura del proyecto
 
 ```
-reconquest/
-├── run.py                         ← Entry point local (python run.py)
-├── app/                           ← Paquete Flask
-│   ├── __init__.py                ← create_app() + app = create_app()
-│   ├── config.py                  ← Variables de entorno y constantes
-│   ├── db.py                      ← Conexión PostgreSQL y init_db
-│   ├── decorators.py              ← login_required / admin_required
-│   ├── utils.py                   ← Helpers (hash, detección SO…)
-│   ├── email_utils.py             ← Envío SMTP
-│   ├── ai.py                      ← Cliente OpenRouter
+Renconquest_Web/
+├── run.py                      ← Arranque local (python run.py)
+├── requirements.txt
+├── docker-compose.yml          ← PostgreSQL local para desarrollo
+├── .env.example                ← Plantilla de variables de entorno
+├── app/
+│   ├── __init__.py             ← create_app() · CSRFProtect · Limiter
+│   ├── config.py               ← Constantes y variables de entorno
+│   ├── db.py                   ← Conexión PostgreSQL · init_db()
+│   ├── decorators.py           ← login_required · admin_required
+│   ├── extensions.py           ← Instancias de csrf y limiter
+│   ├── utils.py                ← bcrypt · detección de SO · helpers
+│   ├── email_utils.py          ← Envío SMTP para reset de contraseña
+│   ├── ai.py                   ← Cliente OpenRouter
+│   ├── moderation.py           ← Lista de palabras bloqueadas
 │   └── blueprints/
-│       ├── main.py                ← /, /download, /api/version
-│       ├── auth.py                ← /register /login /logout /forgot /reset
-│       ├── admin.py               ← /admin/*, /api/stats
-│       ├── reviews.py             ← /reviews/*, /admin/reviews/*
-│       ├── profile.py             ← /profile, /profile/edit
-│       ├── bugs.py                ← /api/bug, /admin/bug/*
-│       └── chat.py                ← /api/chat, /api/free_models
-├── requirements.txt               ← Dependencias Python
-├── templates/                     ← Jinja2
-├── static/
-│   ├── img/logo.png
-│   └── installer/
-│       └── Reconquest_Setup_v1.0.0.exe   ← ⚠ COLOCA AQUÍ TU INSTALADOR
-└── data/
+│       ├── main.py             ← / · /download · /api/version
+│       ├── auth.py             ← /register · /login · /logout · /forgot · /reset
+│       ├── admin.py            ← /admin · /api/stats · /api/admin/downloads_chart
+│       ├── reviews.py          ← /reviews/submit · /admin/reviews/*
+│       ├── profile.py          ← /profile · /profile/edit
+│       ├── bugs.py             ← /api/bug · /admin/bug/*
+│       └── chat.py             ← /api/chat · /api/free_models
+├── templates/                  ← Jinja2 (base.html + páginas)
+└── static/
+    ├── css/main.css
+    ├── img/
+    └── installer/              ← ⚠ Ignorado en git (ver GitHub Releases)
 ```
 
-## Instalación local
+---
+
+## Configuración local
+
+### Prerrequisitos
+
+- Python 3.10+
+- Docker (para la base de datos local) o acceso a un PostgreSQL
+
+### Pasos
 
 ```bash
-# 1. Instalar dependencias
+# 1. Clonar el repositorio
+git clone https://github.com/XabierUrrutia/Renconquest_Web.git
+cd Renconquest_Web
+
+# 2. Crear entorno virtual e instalar dependencias
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# 2. Colocar el instalador del juego
-#    Copia tu .exe en:  static/installer/Reconquest_Setup_v1.0.0.exe
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Edita .env con tus valores
 
-# 3. Arrancar el servidor
+# 4. Levantar la base de datos local
+docker-compose up -d
+
+# 5. Arrancar el servidor
 python run.py
-#    → http://localhost:5000
+# → http://localhost:5000
 ```
 
-## APIs disponibles
+### Variables de entorno
 
-| Ruta           | Descripción                              |
-|----------------|------------------------------------------|
-| `GET /`        | Página principal                         |
-| `GET /download`| Descarga el instalador + incrementa contador |
-| `GET /api/stats`  | JSON con total de descargas           |
-| `GET /api/version`| JSON con versión e info del instalador|
+Copia `.env.example` a `.env` y rellena los valores. El archivo `.env` **nunca** se sube a git.
 
-## Despliegue en producción (dominio propio)
+| Variable | Obligatoria | Descripción |
+|---|---|---|
+| `DATABASE_URL` | Sí | URL de conexión PostgreSQL (ej. Neon) |
+| `SECRET_KEY` | **Sí en producción** | Clave de sesión Flask. Sin ella las sesiones mueren en cada reinicio |
+| `ADMIN_PASSWORD` | No | Password del admin creado en `init_db`. Si no se configura se genera aleatoriamente y se imprime **una sola vez** en los logs |
+| `OPENROUTER_API_KEY` | No | Clave de OpenRouter para chatbot y moderación por IA. Sin ella, el chatbot se deshabilita y la moderación es solo por lista de palabras |
+| `SMTP_HOST` | No | Servidor SMTP para emails de reset (defecto: smtp.gmail.com) |
+| `SMTP_PORT` | No | Puerto SMTP (defecto: 587) |
+| `SMTP_USER` | No | Usuario SMTP |
+| `SMTP_PASS` | No | Contraseña SMTP |
+| `SITE_URL` | No | URL base para links en emails (defecto: http://localhost:5000) |
 
-### Opción A — Render.com (gratuito, fácil)
-1. Sube el proyecto a GitHub
-2. Crea una cuenta en https://render.com
-3. "New Web Service" → conecta tu repo
-4. Build command: `pip install -r requirements.txt`
-5. Start command: `gunicorn app:app`  ← el paquete `app/` expone `app = create_app()` en su `__init__.py`
-6. Listo. Render te da un dominio `.onrender.com` o puedes conectar el tuyo
+> **Modo dev sin SMTP:** si no configuras SMTP, el link de reset de contraseña aparece directamente en pantalla.
 
-### Opción B — VPS propio (Hetzner, DigitalOcean, etc.)
-```bash
-# En el servidor
-sudo apt install python3-pip nginx certbot
+---
 
-pip install gunicorn flask
-gunicorn --bind 0.0.0.0:8000 app:app &
+## Despliegue en Render + Neon
 
-# Nginx como proxy inverso
-# Apunta tu dominio a la IP del servidor
-# Usa certbot para HTTPS gratuito
-```
+### Base de datos — Neon
 
-### Opción C — PythonAnywhere (gratuito para proyectos pequeños)
-1. Crea cuenta en https://www.pythonanywhere.com
-2. Sube los archivos vía consola o interfaz web
-3. Configura una Web App → Flask → apunta a `app.py`
+1. Crea un proyecto en [neon.tech](https://neon.tech)
+2. Copia la **Connection string** (incluye `sslmode=require` automáticamente)
+3. Úsala como valor de `DATABASE_URL`
 
-## Añadir nueva versión del instalador
+El schema se crea automáticamente en el primer arranque con `init_db()`.
 
-1. Cambia `GAME_VERSION` en `app/config.py`
-2. Cambia `INSTALLER_WIN` / `INSTALLER_LNX` en `app/config.py`
-3. Coloca el nuevo `.exe` en `static/installer/`
-4. Reinicia el servidor
+### Web Service — Render
+
+1. Conecta el repositorio en [render.com](https://render.com) → *New Web Service*
+2. Configura:
+   - **Build command:** `pip install -r requirements.txt`
+   - **Start command:** `gunicorn app:app`
+3. Añade las variables de entorno en *Environment*:
+   - `DATABASE_URL` → connection string de Neon
+   - `SECRET_KEY` → string aleatorio largo (p.ej. `python -c "import secrets; print(secrets.token_hex(32))"`)
+   - `ADMIN_PASSWORD` → password para el primer acceso al panel
+   - El resto según necesites (SMTP, OpenRouter…)
+
+---
+
+## API Endpoints
+
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `GET` | `/` | — | Página principal |
+| `GET` | `/download` | Login | Descarga instalador + registra evento |
+| `GET` | `/api/version` | — | Versión actual del juego |
+| `POST` | `/api/bug` | — | Enviar reporte de bug (5 req/min) |
+| `POST` | `/api/chat` | — | Chat con asistente IA (20 req/min) |
+| `GET` | `/api/stats` | Admin | Estadísticas totales |
+| `GET` | `/api/admin/downloads_chart` | Admin | Datos del gráfico de descargas |
+| `GET` | `/api/free_models` | Admin | Modelos gratuitos disponibles en OpenRouter |
+
+---
+
+## Seguridad
+
+- Contraseñas hasheadas con **bcrypt** (migración automática desde SHA256 en el primer login)
+- **CSRF tokens** en todos los formularios HTML
+- **Rate limiting** en endpoints de API públicos
+- Avatar URL validada (solo `http://` o `https://`)
+- Moderación de reseñas por IA + lista de palabras bloqueadas
+
+---
+
+## Licencia
+
+Proyecto académico — Trabajo de Fin de Grado · 2025

@@ -26,6 +26,8 @@
       font-family: 'Rajdhani', sans-serif; font-weight: 400;
       overflow-x: hidden; cursor: crosshair;
     }
+    a, button, label, [role="button"] { cursor: pointer; }
+    input, textarea, select { cursor: text; }
     /* scanlines */
     body::before {
       content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
@@ -883,6 +885,7 @@
       </div>
       {% else %}
       <form method="POST" action="/reviews/submit">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <label class="form-label">Puntuación</label>
         <div class="star-picker">
           {% for i in [5,4,3,2,1] %}
@@ -1149,10 +1152,13 @@
   const chatHistory = [];
 
   async function sendChat() {
-    const input = document.getElementById('chat-input');
-    const msg   = input.value.trim();
-    if (!msg) return;
+    const input   = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('chat-send');
+    const msg     = input.value.trim();
+    if (!msg || sendBtn.disabled) return;
     input.value = '';
+    sendBtn.disabled = true;
+    sendBtn.style.opacity = '.4';
     document.getElementById('chat-qr').style.display = 'none';
     addMsg(msg, 'user');
     chatHistory.push({ role: 'user', content: msg });
@@ -1175,6 +1181,10 @@
     } catch(e) {
       typing.remove();
       addMsg('// Error de comunicación. Inténtalo de nuevo.', 'bot');
+    } finally {
+      sendBtn.disabled = false;
+      sendBtn.style.opacity = '';
+      input.focus();
     }
   }
 

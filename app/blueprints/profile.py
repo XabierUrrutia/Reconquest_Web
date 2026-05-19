@@ -1,9 +1,8 @@
-import secrets
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 
 from ..db import db_fetchone, db_fetchall, db_execute, db_commit
 from ..decorators import login_required
-from ..utils import _hash_pwd
+from ..utils import _hash_pwd, _check_pwd
 
 
 bp = Blueprint("profile", __name__)
@@ -55,27 +54,29 @@ def profile_edit():
             current  = request.form.get("current", "")
             new_pwd  = request.form.get("password", "")
             confirm  = request.form.get("confirm", "")
-            if _hash_pwd(current, user["salt"]) != user["password"]:
+            if not _check_pwd(current, user["password"], user["salt"]):
                 error = "La contraseña actual no es correcta."
             elif len(new_pwd) < 8:
                 error = "La nueva contraseña debe tener al menos 8 caracteres."
             elif new_pwd != confirm:
                 error = "Las contraseñas no coinciden."
             else:
-                salt = secrets.token_hex(16)
-                db_execute("UPDATE users SET password=%s,salt=%s WHERE id=%s",
-                           (_hash_pwd(new_pwd, salt), salt, session["user_id"]))
+                db_execute("UPDATE users SET password=%s, salt=%s WHERE id=%s",
+                           (_hash_pwd(new_pwd), "", session["user_id"]))
                 db_commit()
                 flash("Contraseña actualizada correctamente.", "success")
                 return redirect(url_for("profile.profile"))
 
         elif action == "avatar":
             avatar_url = request.form.get("avatar_url", "").strip()
-            db_execute("UPDATE users SET avatar_url=%s WHERE id=%s",
-                       (avatar_url or None, session["user_id"]))
-            db_commit()
-            flash("Avatar actualizado.", "success")
-            return redirect(url_for("profile.profile"))
+            if avatar_url and not avatar_url.startswith(("http://", "https://")):
+                error = "La URL del avatar debe comenzar con http:// o https://"
+            else:
+                db_execute("UPDATE users SET avatar_url=%s WHERE id=%s",
+                           (avatar_url or None, session["user_id"]))
+                db_commit()
+                flash("Avatar actualizado.", "success")
+                return redirect(url_for("profile.profile"))
 
         user = db_fetchone("SELECT * FROM users WHERE id=%s", (session["user_id"],))
 

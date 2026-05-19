@@ -8,23 +8,27 @@ __pycache__/
 dist/
 build/
 
-# Entorno virtual
+# Entornos virtuales
 venv/
 env/
-.env
+.venv/
 
-# Base de datos (datos locales, no subir)
-data/
-
-# Instalador del juego (pesa demasiado para GitHub)
-static/installer/
-
-# Variables de entorno
+# Variables de entorno — nunca subir a git
 .env
 .env.local
 
+# Base de datos local
+data/
+
+# Instalador del juego (binarios grandes → GitHub Releases)
+static/installer/
+
 # Logs
 *.log
+
+# Claude Code
+.claude/
+memory/
 
 # Sistema operativo
 .DS_Store
@@ -34,3 +38,5 @@ desktop.ini
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo

@@ -1,4 +1,6 @@
+import os
 import secrets
+import logging
 import psycopg2
 import psycopg2.extras
 from flask import g
@@ -93,11 +95,18 @@ def init_db():
     """)
     cur.execute("SELECT id FROM users WHERE is_admin=1 LIMIT 1")
     if not cur.fetchone():
-        salt = secrets.token_hex(16)
-        pwd  = _hash_pwd("admin1234", salt)
+        admin_password = os.environ.get("ADMIN_PASSWORD")
+        if not admin_password:
+            admin_password = secrets.token_urlsafe(16)
+            logging.warning(
+                "ADMIN_PASSWORD no configurada. Password de admin generada: %s — "
+                "guárdala ahora, no se volverá a mostrar.",
+                admin_password
+            )
+        pwd = _hash_pwd(admin_password)
         cur.execute(
             "INSERT INTO users (username,email,password,salt,is_admin,created_at) VALUES (%s,%s,%s,%s,1,%s)",
-            ("admin", "admin@reconquest.local", pwd, salt, _now())
+            ("admin", "admin@reconquest.local", pwd, "", _now())
         )
     conn.commit()
     conn.close()

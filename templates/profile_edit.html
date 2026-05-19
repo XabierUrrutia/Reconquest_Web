@@ -112,6 +112,7 @@
   <div class="edit-block">
     <p class="block-title">Avatar</p>
     <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="action" value="avatar">
       <div class="form-group">
         <label>URL de imagen <span style="color:var(--muted);font-size:.61rem;">(enlace directo)</span></label>
@@ -134,6 +135,7 @@
   <div class="edit-block">
     <p class="block-title">Cambiar email</p>
     <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="action" value="email">
       <div class="form-group">
         <label>Nuevo email</label>
@@ -147,6 +149,7 @@
   <div class="edit-block">
     <p class="block-title">Cambiar contraseña</p>
     <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="action" value="password">
       <div class="form-group">
         <label>Contraseña actual</label>

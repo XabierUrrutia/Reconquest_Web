@@ -177,13 +177,16 @@
           <td>
             {% if u.id != session.user_id %}
             <form method="POST" action="/admin/user/{{ u.id }}/toggle" style="display:inline">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button class="btn-action btn-toggle" type="submit">{{ 'Desactivar' if u.is_active else 'Activar' }}</button>
             </form>
             <form method="POST" action="/admin/user/{{ u.id }}/toggle_admin" style="display:inline">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button class="btn-action btn-admin" type="submit">{{ 'Quitar admin' if u.is_admin else 'Hacer admin' }}</button>
             </form>
             <form method="POST" action="/admin/user/{{ u.id }}/delete" style="display:inline"
                   onsubmit="return confirm('¿Eliminar usuario {{ u.username }}?')">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
               <button class="btn-action btn-delete" type="submit">Eliminar</button>
             </form>
             {% else %}
@@ -225,6 +228,7 @@
             <td class="td-mono">{{ b.created_at[:19].replace('T',' ') }}</td>
             <td>
               <form method="POST" action="/admin/bug/{{ b.id }}/delete" style="display:inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn-action btn-delete" type="submit">Eliminar</button>
               </form>
             </td>

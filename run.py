@@ -1,4 +1,7 @@
 """Dev entry point. En producción (Render) se usa `gunicorn app:app`."""
+from dotenv import load_dotenv
+load_dotenv()
+
 from app import app
 from app.db import init_db
 

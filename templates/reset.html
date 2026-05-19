@@ -16,6 +16,7 @@
 
     {% if not invalid %}
     <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="form-group">
         <label for="password">Nueva contraseña <span style="color:var(--muted);font-size:.62rem;">(mín. 8 caracteres)</span></label>
         <input type="password" id="password" name="password"

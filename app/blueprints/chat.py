@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 
 from ..config import OPENROUTER_API_KEY
 from ..decorators import admin_required
+from ..extensions import csrf, limiter
 from ..ai import openrouter_request
 
 
@@ -30,6 +31,8 @@ IMPORTANTE: Responde SOLO con el mensaje final en español. No muestres razonami
 
 
 @bp.route("/api/chat", methods=["POST"])
+@csrf.exempt
+@limiter.limit("20 per minute")
 def api_chat():
     if not OPENROUTER_API_KEY:
         return jsonify({"error": "Chatbot no configurado."}), 503

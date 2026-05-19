@@ -117,10 +117,12 @@
       </div>
       <div class="rev-actions">
         <form method="POST" action="/admin/reviews/{{ r.id }}/approve">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button class="btn-rev btn-approve">✓ Aprobar</button>
         </form>
         <form method="POST" action="/admin/reviews/{{ r.id }}/delete"
               onsubmit="return confirm('¿Eliminar esta reseña?')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button class="btn-rev btn-del">✕ Eliminar</button>
         </form>
       </div>
@@ -150,6 +152,7 @@
       <div class="rev-actions">
         <form method="POST" action="/admin/reviews/{{ r.id }}/delete"
               onsubmit="return confirm('¿Eliminar esta reseña?')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button class="btn-rev btn-del">✕ Eliminar</button>
         </form>
       </div>

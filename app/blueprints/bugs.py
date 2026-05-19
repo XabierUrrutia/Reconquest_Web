@@ -2,6 +2,7 @@ from flask import Blueprint, request, session, jsonify, redirect, url_for
 
 from ..db import db_execute, db_commit
 from ..decorators import admin_required
+from ..extensions import csrf, limiter
 from ..utils import _now
 
 
@@ -9,6 +10,8 @@ bp = Blueprint("bugs", __name__)
 
 
 @bp.route("/api/bug", methods=["POST"])
+@csrf.exempt
+@limiter.limit("5 per minute")
 def api_bug():
     data = request.get_json(silent=True) or {}
     description = data.get("description", "").strip()

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 
 from ..db import db_fetchone, db_execute, db_commit
-from ..utils import _now, _hash_pwd
+from ..utils import _now, _hash_pwd, _check_pwd, _is_legacy_hash
 from ..email_utils import send_reset_email
 
 
@@ -32,10 +32,9 @@ def register():
             if dup:
                 error = "El nombre de usuario o email ya está registrado."
             else:
-                salt = secrets.token_hex(16)
                 db_execute(
                     "INSERT INTO users (username,email,password,salt,created_at) VALUES (?,?,?,?,?)",
-                    (username, email, _hash_pwd(password, salt), salt, _now())
+                    (username, email, _hash_pwd(password), "", _now())
                 )
                 db_commit()
                 flash("Cuenta creada. Ya puedes iniciar sesión.", "success")
@@ -55,9 +54,14 @@ def login():
             "SELECT * FROM users WHERE (username=%s OR email=%s) AND is_active=1",
             (ident, ident.lower())
         )
-        if not user or _hash_pwd(password, user["salt"]) != user["password"]:
+        if not user or not _check_pwd(password, user["password"], user["salt"]):
             error = "Credenciales incorrectas."
         else:
+            if _is_legacy_hash(user["password"]):
+                # Migrate SHA256 → bcrypt transparently on first login
+                db_execute("UPDATE users SET password=%s, salt=%s WHERE id=%s",
+                           (_hash_pwd(password), "", user["id"]))
+                db_commit()
             session.permanent = True
             session["user_id"]  = user["id"]
             session["username"] = user["username"]
@@ -109,9 +113,8 @@ def reset(token):
         elif pwd != conf:
             error = "Las contraseñas no coinciden."
         else:
-            salt = secrets.token_hex(16)
-            db_execute("UPDATE users SET password=%s,salt=%s WHERE id=%s",
-                       (_hash_pwd(pwd, salt), salt, row["user_id"]))
+            db_execute("UPDATE users SET password=%s, salt=%s WHERE id=%s",
+                       (_hash_pwd(pwd), "", row["user_id"]))
             db_execute("UPDATE reset_tokens SET used=1 WHERE token=%s", (token,))
             db_commit()
             flash("Contraseña actualizada.", "success")
