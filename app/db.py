@@ -11,7 +11,7 @@ from .utils import _now, _hash_pwd
 
 def get_db():
     if "db" not in g:
-        conn = psycopg2.connect(DATABASE_URL)
+        conn = psycopg2.connect(DATABASE_URL, connect_timeout=10)
         conn.autocommit = False
         g.db = conn
     return g.db
@@ -49,7 +49,7 @@ def close_db(exc):
 
 
 def init_db():
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(DATABASE_URL, connect_timeout=10)
     cur  = conn.cursor()
     cur.execute("""
         CREATE TABLE IF NOT EXISTS users (

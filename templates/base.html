@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{% block title %}Reconquest{% endblock %}</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="description" content="Reconquest — videojuego RTS gratuito para Windows y Linux.">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+  <!-- Open Graph -->
+  <meta property="og:title" content="{% block og_title %}Reconquest{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Videojuego RTS gratuito. Conquista fábricas, gestiona tropas y destruye la base enemiga. Disponible para Windows y Linux.{% endblock %}">
+  <meta property="og:image" content="{{ request.host_url }}static/img/logo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@300;400;500;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   {% block head %}{% endblock %}

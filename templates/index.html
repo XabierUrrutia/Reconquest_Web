@@ -4,6 +4,15 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RECONQUEST — Descarga Oficial</title>
+  <meta name="description" content="Reconquest es un RTS gratuito ambientado en una ucronía de Portugal en 1974. Conquista fábricas, gestiona tropas y destruye la base enemiga. Disponible para Windows y Linux.">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+  <!-- Open Graph -->
+  <meta property="og:title" content="RECONQUEST — Videojuego RTS gratuito">
+  <meta property="og:description" content="Conquista fábricas, gestiona tropas y destruye la base enemiga. RTS gratuito para Windows y Linux.">
+  <meta property="og:image" content="{{ request.host_url }}static/img/logo.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta name="twitter:card" content="summary">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@300;400;500;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -662,12 +671,12 @@
     </div>
     {% elif installer_exists %}
     <a href="{{ url_for('main.download') if user else url_for('auth.login', next='/download') }}" class="btn-download" id="dl-btn">
-      <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+      <svg class="dl-icon" id="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      {% if client_os == 'linux' %}Descargar para Linux{% else %}Descargar Ahora{% endif %}
+      <span id="dl-label">{% if client_os == 'linux' %}Descargar para Linux{% else %}Descargar Ahora{% endif %}</span>
     </a>
     <p class="download-meta">
       v{{ version }} &nbsp;·&nbsp;
@@ -1111,13 +1120,28 @@
   const cc = document.getElementById('char-count');
   if (ta && cc) ta.addEventListener('input', () => { cc.textContent = ta.value.length; });
 
-  /* ── DOWNLOAD TOAST ── */
+  /* ── DOWNLOAD TOAST + LOADING STATE ── */
   const dlBtn   = document.getElementById('dl-btn');
   const dlToast = document.getElementById('dl-toast');
   if (dlBtn && dlToast) {
     dlBtn.addEventListener('click', () => {
       dlToast.style.display = 'block';
       setTimeout(() => { dlToast.style.display = 'none'; }, 4000);
+
+      const label = document.getElementById('dl-label');
+      const icon  = document.getElementById('dl-icon');
+      const original = label.textContent;
+      label.textContent = 'Preparando descarga...';
+      dlBtn.style.pointerEvents = 'none';
+      dlBtn.style.opacity = '.7';
+      if (icon) icon.style.animation = 'none';
+
+      setTimeout(() => {
+        label.textContent = original;
+        dlBtn.style.pointerEvents = '';
+        dlBtn.style.opacity = '';
+        if (icon) icon.style.animation = '';
+      }, 3500);
     });
   }
 
