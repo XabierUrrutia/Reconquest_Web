@@ -44,13 +44,9 @@ def api_chat():
 
     messages = messages[-10:]
 
-    allowed_roles = {"user", "assistant"}
     or_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     for msg in messages:
-        role = msg.get("role", "user")
-        if role not in allowed_roles:
-            continue
-        or_messages.append({"role": role, "content": str(msg.get("content", ""))[:2000]})
+        or_messages.append({"role": msg.get("role", "user"), "content": msg.get("content", "")})
 
     reply = openrouter_request(or_messages, max_tokens=300)
     if reply:
