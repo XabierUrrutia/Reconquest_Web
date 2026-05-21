@@ -41,7 +41,6 @@ Esta aplicación Flask gestiona el registro de usuarios, la descarga del instala
 Renconquest_Web/
 ├── run.py                      ← Arranque local (python run.py)
 ├── requirements.txt
-├── docker-compose.yml          ← PostgreSQL local para desarrollo
 ├── .env.example                ← Plantilla de variables de entorno
 ├── app/
 │   ├── __init__.py             ← create_app() · CSRFProtect · Limiter
@@ -75,7 +74,7 @@ Renconquest_Web/
 ### Prerrequisitos
 
 - Python 3.10+
-- Docker (para la base de datos local) o acceso a un PostgreSQL
+- Acceso a un PostgreSQL (p.ej. Neon en local o en la nube)
 
 ### Pasos
 
@@ -93,10 +92,7 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edita .env con tus valores
 
-# 4. Levantar la base de datos local
-docker-compose up -d
-
-# 5. Arrancar el servidor
+# 4. Arrancar el servidor
 python run.py
 # → http://localhost:5000
 ```
@@ -117,7 +113,7 @@ Copia `.env.example` a `.env` y rellena los valores. El archivo `.env` **nunca**
 | `SMTP_PASS` | No | Contraseña SMTP |
 | `SITE_URL` | No | URL base para links en emails (defecto: http://localhost:5000) |
 
-> **Modo dev sin SMTP:** si no configuras SMTP, el link de reset de contraseña aparece directamente en pantalla.
+> **Modo dev sin SMTP:** si no configuras SMTP, los emails de reset no se enviarán. Configura las variables `SMTP_*` para habilitar la recuperación de contraseña.
 
 ---
 
@@ -165,7 +161,7 @@ El schema se crea automáticamente en el primer arranque con `init_db()`.
 - Contraseñas hasheadas con **bcrypt** (migración automática desde SHA256 en el primer login)
 - **CSRF tokens** en todos los formularios HTML
 - **Rate limiting** en endpoints de API públicos
-- Avatar URL validada (solo `http://` o `https://`)
+- Avatar URL validada (solo `http://https://`, sin SVG, máximo 512 caracteres)
 - Moderación de reseñas por IA + lista de palabras bloqueadas
 
 ---
