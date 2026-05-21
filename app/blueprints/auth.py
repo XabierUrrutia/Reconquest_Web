@@ -1,5 +1,6 @@
 import secrets
 from datetime import datetime, timedelta
+from urllib.parse import urlparse, urljoin
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 
 from ..db import db_fetchone, db_execute, db_commit
@@ -8,6 +9,12 @@ from ..email_utils import send_reset_email
 
 
 bp = Blueprint("auth", __name__)
+
+
+def _is_safe_url(target):
+    ref  = urlparse(request.host_url)
+    test = urlparse(urljoin(request.host_url, target))
+    return test.scheme in ("http", "https") and ref.netloc == test.netloc
 
 
 @bp.route("/register", methods=["GET", "POST"])
@@ -68,7 +75,8 @@ def login():
             session["is_admin"] = bool(user["is_admin"])
             db_execute("UPDATE users SET last_login=%s WHERE id=%s", (_now(), user["id"]))
             db_commit()
-            return redirect(request.args.get("next", url_for("main.index")))
+            next_url = request.args.get("next")
+            return redirect(next_url if next_url and _is_safe_url(next_url) else url_for("main.index"))
     return render_template("login.html", error=error)
 
 
@@ -81,7 +89,6 @@ def logout():
 @bp.route("/forgot", methods=["GET", "POST"])
 def forgot():
     sent = False
-    dev_token = None
     if request.method == "POST":
         email = request.form.get("email", "").strip().lower()
         user  = db_fetchone("SELECT * FROM users WHERE email=%s", (email,))
@@ -91,11 +98,9 @@ def forgot():
             db_execute("INSERT INTO reset_tokens (user_id,token,expires_at) VALUES (?,?,?)",
                        (user["id"], token, exp))
             db_commit()
-            ok = send_reset_email(email, token)
-            if not ok:
-                dev_token = token
+            send_reset_email(email, token)
         sent = True
-    return render_template("forgot.html", sent=sent, dev_token=dev_token)
+    return render_template("forgot.html", sent=sent)
 
 
 @bp.route("/reset/<token>", methods=["GET", "POST"])

@@ -33,19 +33,6 @@
       <span style="color:var(--muted);">Revisa también la carpeta de spam.</span>
     </div>
 
-    {% if dev_token %}
-    <div style="background:rgba(140,127,59,.08);border:1px solid rgba(140,127,59,.25);
-                padding:1rem 1.2rem;margin-bottom:1.2rem;
-                font-family:'Share Tech Mono',monospace;font-size:.7rem;
-                color:var(--muted);line-height:1.9;">
-      <span style="color:var(--gold);">// MODO DEV — SMTP no configurado</span><br>
-      Usa este enlace para resetear:<br>
-      <a href="{{ url_for('auth.reset', token=dev_token) }}"
-         style="color:var(--sand);word-break:break-all;text-decoration:none;">
-        /reset/{{ dev_token }}
-      </a>
-    </div>
-    {% endif %}
     {% endif %}
 
     <div class="auth-links">

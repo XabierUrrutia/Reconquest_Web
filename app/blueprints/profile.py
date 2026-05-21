@@ -68,10 +68,18 @@ def profile_edit():
                 return redirect(url_for("profile.profile"))
 
         elif action == "avatar":
+            from urllib.parse import urlparse
             avatar_url = request.form.get("avatar_url", "").strip()
-            if avatar_url and not avatar_url.startswith(("http://", "https://")):
-                error = "La URL del avatar debe comenzar con http:// o https://"
-            else:
+            if avatar_url:
+                parsed = urlparse(avatar_url)
+                ext = parsed.path.lower().split(".")[-1] if "." in parsed.path else ""
+                if parsed.scheme not in ("http", "https"):
+                    error = "La URL del avatar debe comenzar con http:// o https://"
+                elif ext in ("svg", "svgz"):
+                    error = "Formato SVG no permitido como avatar."
+                elif len(avatar_url) > 512:
+                    error = "URL demasiado larga."
+            if not error:
                 db_execute("UPDATE users SET avatar_url=%s WHERE id=%s",
                            (avatar_url or None, session["user_id"]))
                 db_commit()

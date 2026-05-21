@@ -7,7 +7,7 @@ from .config import SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SITE_URL
 
 def send_reset_email(to_email, token):
     if not SMTP_USER:
-        current_app.logger.warning("SMTP not configured. Reset link: %s/reset/%s", SITE_URL, token)
+        current_app.logger.warning("SMTP not configured. Password reset email could not be sent.")
         return False
     try:
         link = f"{SITE_URL}/reset/{token}"

@@ -9,6 +9,10 @@ def login_required(f):
     def decorated(*args, **kwargs):
         if "user_id" not in session:
             return redirect(url_for("auth.login", next=request.path))
+        user = db_fetchone("SELECT is_active FROM users WHERE id=%s", (session["user_id"],))
+        if not user or not user["is_active"]:
+            session.clear()
+            return redirect(url_for("auth.login"))
         return f(*args, **kwargs)
     return decorated
 
@@ -18,7 +22,9 @@ def admin_required(f):
     def decorated(*args, **kwargs):
         if "user_id" not in session:
             return redirect(url_for("auth.login", next=request.path))
-        if not session.get("is_admin"):
+        user = db_fetchone("SELECT is_active, is_admin FROM users WHERE id=%s", (session["user_id"],))
+        if not user or not user["is_active"] or not user["is_admin"]:
+            session.clear()
             abort(403)
         return f(*args, **kwargs)
     return decorated
