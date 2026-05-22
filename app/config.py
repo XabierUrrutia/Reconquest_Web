@@ -10,10 +10,7 @@ INSTALLER_URL  = INSTALLER_URL_WIN
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 
-SMTP_HOST  = os.environ.get("SMTP_HOST",  "smtp.gmail.com")
-SMTP_PORT  = int(os.environ.get("SMTP_PORT", 587))
-SMTP_USER  = os.environ.get("SMTP_USER",  "")
-SMTP_PASS  = os.environ.get("SMTP_PASS",  "")
-SITE_URL   = os.environ.get("SITE_URL",   "http://localhost:5000")
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
+SITE_URL       = os.environ.get("SITE_URL", "http://localhost:5000")
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "")
