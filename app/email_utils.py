@@ -9,11 +9,10 @@ SENDER_EMAIL = "bugfactory373@gmail.com"
 
 def send_reset_email(to_email, token):
     if not SENDGRID_API_KEY:
-        print("DEBUG: SENDGRID_API_KEY not configured", flush=True)
+        current_app.logger.error("SENDGRID_API_KEY not configured. Password reset email could not be sent.")
         return False
     try:
         link = f"{SITE_URL}/reset/{token}"
-        print(f"DEBUG: Sending email to {to_email} via SendGrid", flush=True)
         message = Mail(
             from_email=SENDER_EMAIL,
             to_emails=to_email,
@@ -23,9 +22,8 @@ def send_reset_email(to_email, token):
                 f"{link}\n\nSi no lo solicitaste, ignora este correo.\n\n— Equipo Reconquest"
             ),
         )
-        response = SendGridAPIClient(SENDGRID_API_KEY).send(message)
-        print(f"DEBUG: SendGrid response status: {response.status_code}", flush=True)
+        SendGridAPIClient(SENDGRID_API_KEY).send(message)
         return True
     except Exception as e:
-        print(f"DEBUG: Email error: {e}", flush=True)
+        current_app.logger.error("Email error: %s", e)
         return False
