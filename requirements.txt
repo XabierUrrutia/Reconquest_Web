@@ -5,4 +5,4 @@ python-dotenv
 bcrypt
 Flask-WTF
 Flask-Limiter
-resend
+sendgrid

@@ -10,7 +10,7 @@ INSTALLER_URL  = INSTALLER_URL_WIN
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 
-RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
-SITE_URL       = os.environ.get("SITE_URL", "http://localhost:5000")
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "")
+SITE_URL         = os.environ.get("SITE_URL", "http://localhost:5000")
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "")

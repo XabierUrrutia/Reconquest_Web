@@ -101,20 +101,20 @@
   "hotPaths": [
     {
       "path": "app\\email_utils.py",
-      "accessCount": 3,
-      "lastAccessed": 1779448511826,
+      "accessCount": 4,
+      "lastAccessed": 1779449051364,
       "type": "file"
     },
     {
       "path": "requirements.txt",
-      "accessCount": 2,
-      "lastAccessed": 1779448496146,
+      "accessCount": 3,
+      "lastAccessed": 1779448815691,
       "type": "file"
     },
     {
       "path": "app\\config.py",
-      "accessCount": 2,
-      "lastAccessed": 1779448499475,
+      "accessCount": 3,
+      "lastAccessed": 1779449042210,
       "type": "file"
     },
     {
